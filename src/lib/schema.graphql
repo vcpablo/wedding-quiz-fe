@@ -1,0 +1,297 @@
+query GetGuests {
+  guests {
+    id
+    name
+    email
+    phone
+    created_at
+    updated_at
+  }
+}
+
+query GetEvent($id: Int!) {
+  events_by_pk(id: $id) {
+    id
+    name
+    datetime
+    location
+    type
+    image
+    questionnaires {
+      id
+      title
+      description
+      image
+      event_id
+      questions {
+        id
+        title
+        type
+        hint
+        image
+        options {
+          id
+          title
+        }
+      }
+    }
+  }
+}
+
+# query GetEventQuestionnairesByGuest($userEmail: String!) {
+#   guests(where: { email: { _eq: $userEmail } }) {
+#     id
+#     name
+#     email
+#     phone
+#     event {
+#       id
+#       name
+#       datetime
+#       questionnaires {
+#         id
+#         title
+#         description
+#         image
+#         event_id
+#         event {
+#           name
+#         }
+#         questions {
+#           id
+#           title
+#           type
+#           hint
+#           image
+#           options {
+#             id
+#             title
+#           }
+#           answers(where: { user: { email: { _eq: $userEmail } } }) {
+#             user_id
+#             option_id
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+
+query SearchEventGuestsByName($args: search_guests_by_name_args!) {
+  search_guests_by_name(args: $args) {
+    id
+    name
+    email
+    phone
+    created_at
+    updated_at
+  }
+}
+
+query GetEventQuestionnairesGuestAnswers($eventId: Int, $userId: Int!) {
+  questionnaire(where: { event_id: { _eq: $eventId } }) {
+    id
+    title
+    description
+    image
+    event_id
+    event {
+      name
+    }
+    questions {
+      id
+      title
+      type
+      hint
+      image
+      options {
+        id
+        title
+      }
+      answers(where: { user: { id: { _eq: $userId } } }) {
+        user_id
+        option_id
+      }
+      answers_aggregate(where: {
+        user_id: { _eq: $userId },
+        question: {
+          questionnaire: {
+            event_id: { _eq: $eventId }
+          }
+        }
+      }) {
+        aggregate {
+          count
+        }
+      }
+    }
+    prizes {
+      name
+      image
+      ranking
+    }
+  }
+}
+
+query GetEventQuestionnaireUserAnswersById($questionnaireId: Int, $userId: Int!) {
+  questionnaire(where: { id: { _eq: $questionnaireId } }) {
+    id
+    title
+    description
+    image
+    event_id
+    event {
+      name
+    }
+    questions {
+      id
+      title
+      type
+      hint
+      image
+      options {
+        id
+        title
+      }
+      answers(where: { user_id: { _eq: $userId } }) {
+        id
+        user_id
+        option_id
+        updated_at
+        question_id
+      }
+    }
+    prizes {
+      name
+      image
+      ranking
+    }
+  }
+}
+
+query GetEventQuestionnaireGuestAnswersCount($eventId: Int!, $questionnaireId: Int!, $userId: Int!) {
+  answers_aggregate(where: {
+    user_id: { _eq: $userId },
+    question: {
+      questionnaire_id: { _eq: $questionnaireId },
+      questionnaire: {
+        event_id: { _eq: $eventId }
+      }
+    }
+  }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query GetEventsByUser($userId: Int!) {
+  events(where: { guests: { user_id: { _eq: $userId } } }) {
+    id
+    name
+    datetime
+    location
+    type
+    image
+    guests {
+      id
+    }
+    questionnaires {
+      id
+      title
+      description
+      image
+      event_id
+      questions {
+        id
+        title
+        type
+        hint
+        image
+        options {
+          id
+          title
+        }
+        answers(where: { user_id: { _eq: $userId } }) {
+          user_id
+          option_id
+        }
+      }
+    }
+  }
+}
+
+query GetQuestionnaireRanking($args: get_questionnaire_ranking_args!) {
+  get_questionnaire_ranking(args: $args) {
+    id
+    name
+    email
+    phone
+    points
+  }
+}
+
+mutation InsertAnswer($questionId: Int!, $optionId: Int!, $userId: Int!) {
+  insert_answers_one(object: { question_id: $questionId, option_id: $optionId, user_id: $userId }) {
+    question_id
+    option_id
+    user_id
+  }
+}
+
+mutation UpdateAnswer($id: Int!, $optionId: Int!) {
+  update_answers_by_pk(pk_columns: {id: $id}, _set: {option_id: $optionId}) {
+    question_id
+    option_id
+    user_id
+  }
+}
+
+query GetGuestsByEvents($eventId: Int!) {
+  guests(where: {event_id: {_eq: $eventId}}) {
+    id
+    name
+    status
+    email
+    phone
+    user {
+      id
+      email
+      name
+    }
+  }
+}
+
+query GetGuestById($id: Int!) {
+  guests(where: {id: {_eq: $id}}) {
+    id
+    name
+    status
+    email
+    phone
+    user {
+      id
+      email
+      name
+    }
+  }
+}
+
+mutation InsertGuest($eventId: Int!, $name: String!, $email: String, $phone: String) {
+  insert_guests_one(object: { event_id: $eventId, name: $name, email: $email, phone: $phone }) {
+    id
+    name
+    email
+    phone
+  }
+}
+
+mutation UpdateGuest($id: Int!, $name: String!, $email: String, $phone: String) {
+  update_guests_by_pk(pk_columns: {id: $id}, _set: { name: $name, email: $email, phone: $phone }) {
+    id
+    name
+    email
+    phone
+  }
+}
