@@ -52,8 +52,6 @@
     "graphql": "^16.7.1",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
-    "macy": "^2.5.1",
-    "magic-sdk": "^17.3.0",
     "next": "13.4.5",
     "next-nprogress-bar": "^2.1.0",
     "next-urql": "^5.0.2",

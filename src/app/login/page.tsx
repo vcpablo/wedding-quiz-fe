@@ -1,7 +1,5 @@
 'use client'
 
-import magicClient from '@/lib/magic/client'
-
 import { login } from '@/services'
 import {
   TextInput,
@@ -86,10 +84,10 @@ function Login() {
         window.localStorage.setItem('wedding-quiz-token', token)
       }
 
-      setUser((state: UserState) => ({
-        ...state,
-        data: user,
-      }))
+      // setUser((state: UserState) => ({
+      //   ...state,
+      //   data: user,
+      // }))
 
       navigate('/')
     } catch (error: any) {

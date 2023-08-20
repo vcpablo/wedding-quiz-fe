@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, createContext, useContext, useEffect, useMemo } from 'react'
-import magicClient from '@/lib/magic/client'
+// import magicClient from '@/lib/magic/client'
 import { usePathname } from 'next/navigation'
 
 import { me } from '@/services'
@@ -90,9 +90,9 @@ export const AuthProvider = ({ children }: any) => {
       window.localStorage.removeItem('wedding-quiz-token')
     }
 
-    if (await magicClient.user.isLoggedIn()) {
-      await magicClient.user.logout()
-    }
+    // if (await magicClient.user.isLoggedIn()) {
+    //   await magicClient.user.logout()
+    // }
     navigate('/login')
   }
 

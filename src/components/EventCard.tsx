@@ -1,5 +1,4 @@
 'use client'
-
 import dayjs from 'dayjs'
 import { Button, Card, Flex, Image, Text } from '@mantine/core'
 import TruncatedText from './TruncatedText'
