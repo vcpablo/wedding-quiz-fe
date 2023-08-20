@@ -1,3 +1,5 @@
+'use client'
+
 import { Option } from '@/types'
 import { Box, Flex, MantineTheme, ThemeIcon } from '@mantine/core'
 import { IconCheck } from '@tabler/icons-react'

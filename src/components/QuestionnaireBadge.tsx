@@ -1,3 +1,5 @@
+'use client'
+
 import { getQuestionnaireBadgeColor } from '@/helpers/questionnaire'
 import { QuestionnaireStatus } from '@/types'
 import { Badge } from '@mantine/core'

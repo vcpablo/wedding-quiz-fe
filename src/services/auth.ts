@@ -1,3 +1,5 @@
+'use client'
+
 import { CredentialsState, ServiceMagicLoginParams, User } from '@/types'
 import api from './api'
 

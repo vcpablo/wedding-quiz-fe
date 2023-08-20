@@ -1,3 +1,5 @@
+'use client'
+
 import { SearchEventGuestsByNameDocument } from '@/lib/wedding/graphql'
 import { gqlClient } from '@/lib/service/gqlClient'
 

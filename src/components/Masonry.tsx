@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useRef, useEffect, MutableRefObject, useMemo } from 'react'
 import { Box, createStyles } from '@mantine/core'
 import Macy from 'macy'
@@ -71,15 +73,8 @@ const AppStyles = createStyles((theme, {}) => ({
 }))
 
 export const Masonry = ({ children }: MasonryProps) => {
-  const containerRef = useRef()
+  const containerRef = useRef(null)
   const childCount = React.Children.count(children)
-  const { macy } = useMasonry(containerRef, childCount)
 
-  const { classes } = AppStyles({}, { name: 'App' })
-
-  return (
-    <Box ref={containerRef} className={classes.container}>
-      {children}
-    </Box>
-  )
+  return <Box ref={containerRef}>{children}</Box>
 }

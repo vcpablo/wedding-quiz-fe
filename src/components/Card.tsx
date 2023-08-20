@@ -1,3 +1,5 @@
+'use client'
+
 import { Options, Questions } from '@/lib/wedding/graphql'
 import {
   Card as CardUI,

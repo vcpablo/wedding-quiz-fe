@@ -1,3 +1,5 @@
+'use client'
+
 import { PropsWithChildren } from 'react'
 import LoadingOverlay from './LoadingOverlay'
 import EmptyState from './EmptyState'

@@ -1,5 +1,6 @@
+'use client'
+
 import { LoadingOverlay as LoadingOverlayUI } from '@mantine/core'
-import { Box } from '@mantine/core'
 
 interface LoadingOverlayProps {
   visible: boolean

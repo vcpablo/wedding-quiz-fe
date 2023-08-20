@@ -1,3 +1,5 @@
+'use client'
+
 import { Title as TitleUI } from '@mantine/core'
 
 interface TitleProps {

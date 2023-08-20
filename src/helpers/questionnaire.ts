@@ -1,3 +1,5 @@
+'use client'
+
 import { Questionnaire, QuestionnaireStatus } from '@/types'
 
 export const getQuestionnaireProgress = (

@@ -1,3 +1,5 @@
+'use client'
+
 import { Anchor, Box, Text, TextProps } from '@mantine/core'
 
 const ComponentsMap = {

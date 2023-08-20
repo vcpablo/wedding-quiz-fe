@@ -1,6 +1,7 @@
 'use client'
+
 import { useState, createContext, useContext, useEffect, useMemo } from 'react'
-import magicClient from '@/lib/magic/client'
+// import magicClient from '@/lib/magic/client'
 import { usePathname } from 'next/navigation'
 
 import { me } from '@/services'
@@ -67,7 +68,11 @@ export const AuthProvider = ({ children }: any) => {
 
   const logout = async () => {
     setIsLoading(true)
-    localStorage.removeItem('wedding-quiz-token')
+
+    if (window) {
+      window.localStorage.removeItem('wedding-quiz-token')
+    }
+
     navigate('/login')
     setUser((state) => ({
       ...state,
@@ -80,10 +85,14 @@ export const AuthProvider = ({ children }: any) => {
       ...state,
       data: null,
     }))
-    localStorage.removeItem('wedding-quiz-token')
-    if (await magicClient.user.isLoggedIn()) {
-      await magicClient.user.logout()
+
+    if (window) {
+      window.localStorage.removeItem('wedding-quiz-token')
     }
+
+    // if (await magicClient.user.isLoggedIn()) {
+    //   await magicClient.user.logout()
+    // }
     navigate('/login')
   }
 

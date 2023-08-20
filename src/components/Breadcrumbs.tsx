@@ -1,4 +1,5 @@
 'use client'
+
 import { useAppContext } from '@/providers/AppProvider'
 import { Anchor, Flex, Text } from '@mantine/core'
 import TruncatedText from './TruncatedText'

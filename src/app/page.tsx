@@ -8,19 +8,15 @@ import {
 import { useAuthContext } from '@/providers/AuthProvider'
 import { useQuery } from '@apollo/client'
 
-import { Flex, Title } from '@mantine/core'
+import { Flex, Grid, Title } from '@mantine/core'
 
 import EventCard from '@/components/EventCard'
 
-import { Event } from '@/types'
-import { Masonry } from '@/components/Masonry'
-import { useAppContext } from '@/providers/AppProvider'
 import DataRenderer from '@/components/DataRenderer'
 import { useMemo } from 'react'
 
 const Home: React.FC = () => {
   const { user, isLoggedIn } = useAuthContext()
-  const { navigate } = useAppContext()
 
   const { loading, data } = useQuery<
     GetEventsByUserQuery,
@@ -43,11 +39,13 @@ const Home: React.FC = () => {
         isEmpty={isEmpty}
         emptyText="Nenhum evento encontrado"
       >
-        <Masonry>
-          {data?.events.map((event) => (
-            <EventCard key={event.id} event={event} />
+        <Grid>
+          {data?.events?.map((event, index) => (
+            <Grid.Col key={index} xs={6} sm={4} md={4} lg={3}>
+              <EventCard key={index} event={event} />
+            </Grid.Col>
           ))}
-        </Masonry>
+        </Grid>
       </DataRenderer>
     </Flex>
   )

@@ -14,7 +14,7 @@ import { useEventContext } from '@/providers/EventProvider'
 import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import { useQuery } from '@apollo/client'
 import { Box, Button, Flex, Paper, Table, Title } from '@mantine/core'
-import { IconArrowLeft, IconTrophy } from '@tabler/icons-react'
+import { IconTrophy } from '@tabler/icons-react'
 import { useMemo } from 'react'
 
 interface QuestionnaireRankingProps {}
