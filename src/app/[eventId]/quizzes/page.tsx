@@ -1,8 +1,7 @@
 'use client'
+
 import Breadcrumbs from '@/components/Breadcrumbs'
 import DataRenderer from '@/components/DataRenderer'
-import LoadingOverlay from '@/components/LoadingOverlay'
-import { Masonry } from '@/components/Masonry'
 import QuestionnaireCard from '@/components/QuestionnaireCard'
 import {
   GetEventQuestionnairesGuestAnswersDocument,
@@ -42,7 +41,9 @@ const Quizzes: React.FC = () => {
     { title: event?.name, active: true },
   ]
 
-  window.onresize = () => setIsLoading(false)
+  if (window) {
+    window.onresize = () => setIsLoading(false)
+  }
 
   const handleBack = () => navigate('/')
 
@@ -53,7 +54,9 @@ const Quizzes: React.FC = () => {
 
   useEffect(() => {
     if (data?.questionnaire) {
-      setTimeout(() => window.dispatchEvent(new Event('resize')), 0)
+      if (window) {
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 0)
+      }
     }
   }, [data])
 

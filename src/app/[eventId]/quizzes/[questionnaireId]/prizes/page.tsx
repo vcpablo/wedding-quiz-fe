@@ -1,4 +1,5 @@
 'use client'
+
 import Breadcrumbs from '@/components/Breadcrumbs'
 import DataRenderer from '@/components/DataRenderer'
 import PrizeCard from '@/components/PrizeCard'
@@ -6,9 +7,8 @@ import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import { Prize } from '@/types'
-import { Alert, Avatar, Button, Card, Flex, Text, Title } from '@mantine/core'
-import { IconAlertCircle, IconListNumbers } from '@tabler/icons-react'
-import { useMemo } from 'react'
+import { Button, Flex, Title } from '@mantine/core'
+import { IconListNumbers } from '@tabler/icons-react'
 
 interface QuestionnairePrizesProps {}
 

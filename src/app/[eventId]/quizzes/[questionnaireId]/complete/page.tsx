@@ -1,15 +1,10 @@
 'use client'
-import Breadcrumbs from '@/components/Breadcrumbs'
+
 import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import { Box, Button, Flex, Image, Text, ThemeIcon } from '@mantine/core'
-import {
-  IconArrowLeft,
-  IconCheck,
-  IconConfetti,
-  IconListNumbers,
-} from '@tabler/icons-react'
+import { IconArrowLeft, IconListNumbers } from '@tabler/icons-react'
 import Confetti from 'react-confetti'
 
 interface QuestionnaireCompleteProps {}

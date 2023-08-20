@@ -1,3 +1,5 @@
+'use client'
+
 import { Flex, Loader } from '@mantine/core'
 
 const Loading: React.FC = () => (

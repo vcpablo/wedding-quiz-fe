@@ -1,3 +1,5 @@
+'use client'
+
 import { Magic } from '@magic-sdk/admin'
 
 // initiating Magic instance for server-side methods

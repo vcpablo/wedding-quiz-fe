@@ -1,4 +1,5 @@
 'use client'
+
 import Breadcrumbs from '@/components/Breadcrumbs'
 import ConfirmationModal from '@/components/ConfirmationModal'
 import DataRenderer from '@/components/DataRenderer'

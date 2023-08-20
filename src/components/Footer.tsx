@@ -1,4 +1,5 @@
 'use client'
+
 import { Footer as FooterUI, Flex } from '@mantine/core'
 import NotificationAlert from './NotificationAlert'
 import { useAppContext } from '@/providers/AppProvider'

@@ -1,4 +1,5 @@
 'use client'
+
 import maxBy from 'lodash/fp/maxBy'
 import last from 'lodash/fp/last'
 import { useParams, usePathname, useSearchParams } from 'next/navigation'

@@ -16,11 +16,7 @@ import {
 } from '@mantine/core'
 
 import { useMemo, useState } from 'react'
-import {
-  isValidEmail,
-  isValidName,
-  isValidPhoneNumber,
-} from '@/lib/utils/string'
+import { isValidEmail, isValidPhoneNumber } from '@/lib/utils/string'
 import { useAuthContext } from '@/providers/AuthProvider'
 import { UserState, CredentialsState, CredentialsTypes } from '@/types'
 import { useAppContext } from '@/providers/AppProvider'
@@ -36,40 +32,39 @@ function Login() {
     value: '',
   })
 
-  const isFormValid: boolean = useMemo(() => {
-    console.log({ credentials })
-    return (
+  const isFormValid: boolean = useMemo(
+    () =>
       !!credentials.value &&
       (credentials.type === CredentialsTypes.Name ||
         isValidEmail(credentials.value) ||
-        isValidPhoneNumber(credentials.value))
-    )
-  }, [credentials])
+        isValidPhoneNumber(credentials.value)),
+    [credentials]
+  )
 
   // Magic login temporarily disabled
-  const magicLogin = async (credentials: CredentialsState): Promise<any> => {
-    if (isValidEmail(credentials.value)) {
-      setCredentials((state: CredentialsState) => ({
-        ...state,
-        type: CredentialsTypes.Email,
-      }))
+  // const magicLogin = async (credentials: CredentialsState): Promise<any> => {
+  //   if (isValidEmail(credentials.value)) {
+  //     setCredentials((state: CredentialsState) => ({
+  //       ...state,
+  //       type: CredentialsTypes.Email,
+  //     }))
 
-      return await magicClient.auth.loginWithEmailOTP({
-        email: 'vcpablo@gmail.com',
-      })
-    } else if (isValidPhoneNumber(credentials.value)) {
-      setCredentials((state: CredentialsState) => ({
-        ...state,
-        type: CredentialsTypes.Phone,
-      }))
+  //     return await magicClient.auth.loginWithEmailOTP({
+  //       email: 'vcpablo@gmail.com',
+  //     })
+  //   } else if (isValidPhoneNumber(credentials.value)) {
+  //     setCredentials((state: CredentialsState) => ({
+  //       ...state,
+  //       type: CredentialsTypes.Phone,
+  //     }))
 
-      return await magicClient.auth.loginWithEmailOTP({
-        email: 'vcpablo@gmail.com',
-      })
-    }
+  //     return await magicClient.auth.loginWithEmailOTP({
+  //       email: 'vcpablo@gmail.com',
+  //     })
+  //   }
 
-    return null
-  }
+  //   return null
+  // }
 
   const handleSubmit = async () => {
     try {
@@ -87,7 +82,10 @@ function Login() {
 
       const { token, user } = await login(credentials)
 
-      localStorage.setItem('wedding-quiz-token', token)
+      if (window) {
+        window.localStorage.setItem('wedding-quiz-token', token)
+      }
+
       setUser((state: UserState) => ({
         ...state,
         data: user,

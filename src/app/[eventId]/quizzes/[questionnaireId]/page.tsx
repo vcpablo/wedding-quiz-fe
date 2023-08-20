@@ -8,7 +8,6 @@ import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Option } from '@/types'
 import QuestionOption from '@/components/QuestionOption'
-import { useAppContext } from '@/providers/AppProvider'
 import DataRenderer from '@/components/DataRenderer'
 
 const Questionnaire: React.FC = () => {

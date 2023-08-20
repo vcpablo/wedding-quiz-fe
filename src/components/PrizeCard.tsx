@@ -1,3 +1,5 @@
+'use client'
+
 import { getRanking } from '@/helpers/questionnaire'
 import { Prize } from '@/types'
 import { Badge, Card, Flex, Group, Image, Text } from '@mantine/core'

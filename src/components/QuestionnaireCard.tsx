@@ -1,3 +1,5 @@
+'use client'
+
 import { Questionnaire } from '@/types'
 import {
   Box,
