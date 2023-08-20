@@ -22,7 +22,7 @@ jobs:
         with:
           ref: main
       - uses: actions/setup-node@master
-      - run: yarn install && yarn build
+      - run: yarn install && yarn lint --fix && yarn build
       - name: Copy production dist files via scp
         uses: appleboy/scp-action@master
         with:
