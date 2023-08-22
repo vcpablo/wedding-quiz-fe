@@ -5,9 +5,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  eslint: {
-    ignoreDuringBuilds: ['/src/lib/wedding'],
-  },
 }
 
 module.exports = nextConfig
