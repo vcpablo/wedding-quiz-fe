@@ -1,13 +1,81 @@
 'use client'
+import { useAppContext } from '@/providers/AppProvider'
+import { useAuthContext } from '@/providers/AuthProvider'
+import {
+  ActionIcon,
+  Button,
+  Container,
+  Flex,
+  Header as HeaderUI,
+  Image,
+  Modal,
+  Text,
+} from '@mantine/core'
+import { IconUserCircle } from '@tabler/icons-react'
+import { IconLogout } from '@tabler/icons-react'
+import { useState } from 'react'
 
-import { Title as TitleUI } from '@mantine/core'
+const Header: React.FC = () => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false)
 
-interface TitleProps {
-  text: string
+  const { user, logout } = useAuthContext()
+  const { navigate } = useAppContext()
+
+  const handleOpenLogoutModal = () => setIsLogoutModalOpen(true)
+  const handleCloseLogoutModal = () => setIsLogoutModalOpen(false)
+  const handleLogout = () => {
+    logout()
+    setIsLogoutModalOpen(false)
+  }
+
+  return (
+    <>
+      <HeaderUI height="auto">
+        <Container>
+          <Flex align="center" h="100%" p="xs">
+            <Flex align="center" justify="space-between" w="100%">
+              <Flex align="center" gap={10}>
+                <Image src="/images/logo.png" width="24px" alt="Logo Quizzer" />
+                <Text
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/')}
+                >
+                  Quizzer
+                </Text>
+              </Flex>
+              <Flex align="center" gap={10}>
+                <IconUserCircle size="1rem" color="gray" />
+                {user.data?.name}
+                <ActionIcon
+                  variant="light"
+                  color="red"
+                  onClick={handleOpenLogoutModal}
+                >
+                  <IconLogout size="1rem" />
+                </ActionIcon>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Container>
+      </HeaderUI>
+      <Modal
+        opened={isLogoutModalOpen}
+        onClose={handleCloseLogoutModal}
+        title="Deseja realmente sair?"
+      >
+        <Flex justify="end" gap={10}>
+          <Button
+            variant="outline"
+            color="gray"
+            onClick={handleCloseLogoutModal}
+          >
+            Não
+          </Button>
+          <Button onClick={handleLogout}>Sim</Button>
+        </Flex>
+      </Modal>
+    </>
+  )
 }
 
-const Title: React.FC<TitleProps> = ({ text }) => {
-  return <TitleUI order={1}>{text}</TitleUI>
-}
-
-export default Title
+export default Header

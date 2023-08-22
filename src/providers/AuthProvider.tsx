@@ -8,7 +8,8 @@ import { me } from '@/services'
 import { useAppContext } from './AppProvider'
 import { UserRoles, UserState } from '@/types'
 
-import LoadingOverlay from '@/components/LoadingOverlay'
+// import LoadingOverlay from '@/components/LoadingOverlay'
+import { Box, LoadingOverlay } from '@mantine/core'
 
 interface AuthContextValue {
   token: string | null
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }: any) => {
     loading: true,
   })
   const pathname = usePathname()
-  const { navigate, setIsLoading, setError } = useAppContext()
+  const { navigate, setIsLoading, isLoading, setError } = useAppContext()
 
   const checkAuthentication = async (pathname: string) => {
     try {
@@ -56,9 +57,11 @@ export const AuthProvider = ({ children }: any) => {
       if (error.code === 'ERR_NETWORK') {
         setError('Conexão de internet não disponível no momento')
       } else if (error?.response?.status === 401) {
-        navigate(`/login?returnUrl=${pathname}`)
+        const returnURL = pathname === '/login' ? '' : `?returnUrl=${pathname}`
+        navigate(`/login${returnURL}`)
       }
     } finally {
+      setIsLoading(false)
       setUser((state) => ({
         ...state,
         loading: false,
@@ -74,10 +77,13 @@ export const AuthProvider = ({ children }: any) => {
     }
 
     navigate('/login')
-    setUser((state) => ({
-      ...state,
-      data: null,
-    }))
+
+    setTimeout(() => {
+      setUser((state) => ({
+        ...state,
+        data: null,
+      }))
+    }, 1000)
   }
 
   const magicLogout = async () => {
@@ -119,7 +125,21 @@ export const AuthProvider = ({ children }: any) => {
         magicLogout,
       }}
     >
-      <LoadingOverlay visible={user.loading}>{children}</LoadingOverlay>
+      <Box h="100vh">
+        <LoadingOverlay
+          visible={isLoading || user.loading}
+          loaderProps={{ variant: 'dots' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100vw',
+            height: '100vh',
+          }}
+          overlayBlur={2}
+        />
+        {children}
+      </Box>
     </AuthContext.Provider>
   )
 }

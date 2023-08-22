@@ -3,4 +3,5 @@ $light-bg: #fcfefc;
 body {
   height: 100vh !important;
   background-color: $light-bg !important;
+  overflow: hidden !important;
 }

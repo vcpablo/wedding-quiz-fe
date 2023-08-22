@@ -1,6 +1,7 @@
 'use client'
 
-import { LoadingOverlay as LoadingOverlayUI } from '@mantine/core'
+import { Flex, Loader } from '@mantine/core'
+import { useMemo } from 'react'
 
 interface LoadingOverlayProps {
   visible: boolean
@@ -10,15 +11,29 @@ interface LoadingOverlayProps {
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   visible,
   children,
-}) => (
-  <>
-    <LoadingOverlayUI
-      visible={visible}
-      overlayBlur={2}
-      loaderProps={{ variant: 'dots' }}
-    />
-    {children}
-  </>
-)
+}) => {
+  return (
+    <>
+      {visible && (
+        <Flex
+          style={{
+            position: 'absolute',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: ' blur(0.125rem)',
+            zIndex: 1,
+            display: 'flex',
+            width: '100vw',
+            height: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Loader variant="dots" />
+        </Flex>
+      )}
+      {children}
+    </>
+  )
+}
 
 export default LoadingOverlay

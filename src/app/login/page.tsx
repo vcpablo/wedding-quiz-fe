@@ -11,6 +11,7 @@ import {
   Box,
   Image,
   Loader,
+  Text,
 } from '@mantine/core'
 
 import { useMemo, useState } from 'react'
@@ -18,6 +19,7 @@ import { isValidEmail, isValidPhoneNumber } from '@/lib/utils/string'
 import { useAuthContext } from '@/providers/AuthProvider'
 import { UserState, CredentialsState, CredentialsTypes } from '@/types'
 import { useAppContext } from '@/providers/AppProvider'
+import { IconLock, IconLogin } from '@tabler/icons-react'
 
 function Login() {
   const { setUser } = useAuthContext()
@@ -64,7 +66,8 @@ function Login() {
   //   return null
   // }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
     try {
       if (!isFormValid) {
         const error =
@@ -83,11 +86,6 @@ function Login() {
       if (window) {
         window.localStorage.setItem('wedding-quiz-token', token)
       }
-
-      // setUser((state: UserState) => ({
-      //   ...state,
-      //   data: user,
-      // }))
 
       navigate('/')
     } catch (error: any) {
@@ -126,28 +124,41 @@ function Login() {
       <Flex justify="center" direction="column" mih="60vh">
         <Box w="100%">
           <Image src="/images/wedding-vibes.gif" alt="Noivos dançando" />
-          <Title align="center">Wedding Quiz</Title>
+          <Flex align="center" justify="center" gap={10}>
+            <Image src="/images/logo.png" width="48px" alt="Noivos dançando" />
+            <Flex direction="column" align="flex-end">
+              <Text size={10}>powered by</Text>
+              <Title align="center" lh={0.7}>
+                Quizzer
+              </Title>
+            </Flex>
+          </Flex>
 
           <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-            <Flex direction="column" gap="sm">
-              <TextInput
-                // label="Informe seu telefone ou email"
-                label="Informe seu nome e sobrenome"
-                // placeholder="Ex: 22999999999 ou joao@email.com"
-                placeholder="Ex: Joao da silva"
-                required
-                onInput={handleInput}
-                error={credentialsError}
-              />
-              {/* <Button variant="subtle">Entrar com nome</Button> */}
-              <Button
-                fullWidth
-                onClick={handleSubmit}
-                disabled={!!credentialsError || isLoading}
-              >
-                {isLoading ? <Loader size="xs" /> : 'Entrar'}
-              </Button>
-            </Flex>
+            <form onSubmit={handleSubmit}>
+              <Flex direction="column" gap="sm">
+                <TextInput
+                  // label="Informe seu telefone ou email"
+                  label="Informe seu nome e sobrenome"
+                  // placeholder="Ex: 22999999999 ou joao@email.com"
+                  placeholder="Ex: Joao da silva"
+                  required
+                  onInput={handleInput}
+                  error={credentialsError}
+                />
+                {/* <Button variant="subtle">Entrar com nome</Button> */}
+                <Button
+                  type="submit"
+                  fullWidth
+                  disabled={!!credentialsError || isLoading}
+                  leftIcon={
+                    isLoading ? <Loader size="xs" /> : <IconLock size="1rem" />
+                  }
+                >
+                  {isLoading ? 'Aguarde' : 'Entrar'}
+                </Button>
+              </Flex>
+            </form>
           </Paper>
         </Box>
       </Flex>

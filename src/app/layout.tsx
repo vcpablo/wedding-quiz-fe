@@ -22,6 +22,11 @@ const inter = Inter({ subsets: ['latin'] })
 const RootLayout = ({ children }: { children: React.ReactElement }) => {
   return (
     <html lang="en">
+      <meta content="yes" name="apple-mobile-web-app-capable" />
+      <meta
+        content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
+        name="viewport"
+      />
       <body className={inter.className}>
         <AppProvider>
           <AuthProvider>

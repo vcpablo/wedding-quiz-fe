@@ -14,7 +14,7 @@ import { useAuthContext } from '@/providers/AuthProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { Questionnaire } from '@/types'
 import { useQuery } from '@apollo/client'
-import { Flex, Title } from '@mantine/core'
+import { Flex, Grid, Title } from '@mantine/core'
 import { useEffect, useMemo } from 'react'
 
 const Quizzes: React.FC = () => {
@@ -41,24 +41,10 @@ const Quizzes: React.FC = () => {
     { title: event?.name, active: true },
   ]
 
-  if (window) {
-    window.onresize = () => setIsLoading(false)
-  }
-
-  const handleBack = () => navigate('/')
-
   const isEmpty = useMemo(
     () => data?.questionnaire?.length === 0,
     [data?.questionnaire]
   )
-
-  useEffect(() => {
-    if (data?.questionnaire) {
-      if (window) {
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 0)
-      }
-    }
-  }, [data])
 
   return (
     <Flex direction="column" gap={16}>
@@ -69,29 +55,33 @@ const Quizzes: React.FC = () => {
         isEmpty={isEmpty}
         emptyText="Nenhum quiz encontrado"
       >
-        <Flex wrap="wrap" gap={16}>
+        <Grid>
           {data?.questionnaire?.map((questionnaire: any, index: number) => {
             const hasPrizes = questionnaire.prizes.length > 0
 
             return (
-              <Flex
-                key={index}
-                direction={{ base: 'column', sm: 'row' }}
-                maw={{ base: '100%', sm: 'calc(100% * (1/4) - 12px)' }}
-                h="100%"
-                style={{
-                  flexGrow: '1',
-                  flex: '1 0 100%',
-                }}
-              >
-                <QuestionnaireCard
-                  questionnaire={questionnaire as Questionnaire}
-                  hasPrizes={hasPrizes}
-                />
-              </Flex>
+              <Grid.Col key={index} xs={6} sm={4} md={4} lg={4}>
+                <Flex
+                  key={index}
+                  direction={{ base: 'column', sm: 'row' }}
+                  // maw={{ base: '100%', sm: 'calc(100% * (1/4) - 12px)' }}
+                  h="100%"
+                  style={{
+                    flexGrow: '1',
+                    flex: '1 0 100%',
+                  }}
+                >
+                  <QuestionnaireCard
+                    questionnaire={questionnaire as Questionnaire}
+                    hasPrizes={hasPrizes}
+                  />
+                </Flex>
+              </Grid.Col>
             )
           })}
-        </Flex>
+        </Grid>
+        {/* <Flex wrap="wrap" gap={16}>
+        </Flex> */}
       </DataRenderer>
     </Flex>
   )

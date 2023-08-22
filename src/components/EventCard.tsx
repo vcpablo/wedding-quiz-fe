@@ -60,14 +60,8 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           </Button>
 
           {isAdmin && (
-            <Button
-              color="yellow"
-              fullWidth
-              radius="md"
-              onClick={handleViewGuests}
-              leftIcon={<IconUsersGroup size="1rem" />}
-            >
-              Convidados
+            <Button color="yellow" radius="md" onClick={handleViewGuests}>
+              <IconUsersGroup size="1rem" />
             </Button>
           )}
         </Flex>
