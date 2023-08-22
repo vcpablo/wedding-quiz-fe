@@ -47,7 +47,7 @@ const QuestionnaireRanking: React.FC<QuestionnaireRankingProps> = () => {
     navigate(`/${questionnaire?.event_id}/quizzes/${questionnaire?.id}/prizes`)
 
   const isEmpty = useMemo(
-    () => data?.get_questionnaire_ranking?.length === 0,
+    () => !loading && data?.get_questionnaire_ranking?.length === 0,
     [data?.get_questionnaire_ranking]
   )
 

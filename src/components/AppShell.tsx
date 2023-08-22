@@ -1,37 +1,29 @@
 import { useEffect, useState } from 'react'
 import {
   AppShell as AppShellUI,
-  Header,
-  Text,
-  MediaQuery,
-  Burger,
   useMantineTheme,
-  Flex,
-  Alert,
+  Container,
+  Box,
 } from '@mantine/core'
+import Header from './Header'
 
-import Navbar from './Navbar'
-import Footer from './Footer'
 import { useAuthContext } from '@/providers/AuthProvider'
 import { useAppContext } from '@/providers/AppProvider'
+import { IconLogout } from '@tabler/icons-react'
 import LoadingOverlay from './LoadingOverlay'
-import { IconAlertTriangle } from '@tabler/icons-react'
 import ErrorAlert from './ErrorAlert'
-import NotificationAlert from './NotificationAlert'
+import Footer from './Footer'
+import DataRenderer from './DataRenderer'
+import { usePathname } from 'next/navigation'
 
 const AppShell = ({ children }: { children: React.ReactElement }) => {
   const theme = useMantineTheme()
-
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
   const { navigate } = useAppContext()
-  const { isLoggedIn } = useAuthContext()
-  const { isLoading, error, setError, notification, setNotification } =
-    useAppContext()
-
-  useEffect(() => {
-    console.log({ notification })
-  }, [notification])
+  const { isLoggedIn, user } = useAuthContext()
+  const { error, setError } = useAppContext()
 
   useEffect(() => {
     if (!isLoggedIn && isOpen) {
@@ -51,42 +43,19 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
     },
   }
 
-  return isLoggedIn ? (
-    <AppShellUI
-      styles={styles}
-      navbarOffsetBreakpoint="sm"
-      asideOffsetBreakpoint="sm"
-      navbar={<Navbar isOpen={isOpen} onClick={() => setIsOpen(false)} />}
-      footer={<Footer />}
-      header={
-        <Header height={{ base: 50, md: 70 }}>
-          <Flex align="center" h="100%" p="md">
-            <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-              <Burger
-                opened={isOpen}
-                onClick={() => setIsOpen((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
+  const isLoginPage = pathname === '/login'
 
-            <Text style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-              Wedding Quiz
-            </Text>
-          </Flex>
-        </Header>
-      }
-    >
-      <LoadingOverlay visible={isLoading || !isLoggedIn}>
-        <>{children}</>
-      </LoadingOverlay>
-    </AppShellUI>
-  ) : (
+  return isLoginPage ? (
     <>
       {children}
       {error && <ErrorAlert error={error} onClose={() => setError('')} />}
     </>
+  ) : (
+    <AppShellUI styles={styles} footer={<Footer />} header={<Header />}>
+      <Container py={6} my="48px">
+        <>{children}</>
+      </Container>
+    </AppShellUI>
   )
 }
 

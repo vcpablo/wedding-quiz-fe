@@ -28,20 +28,19 @@ const Home: React.FC = () => {
     skip: !user.data?.id,
   })
 
-  const isLoading = useMemo(() => loading || !isLoggedIn, [loading, isLoggedIn])
   const isEmpty = useMemo(() => data?.events.length === 0, [data?.events])
 
   return (
     <Flex direction="column" gap={16}>
-      <Title>Meus eventos</Title>
       <DataRenderer
-        isLoading={isLoading}
+        isLoading={loading}
         isEmpty={isEmpty}
         emptyText="Nenhum evento encontrado"
       >
+        <Title>Meus eventos</Title>
         <Grid>
           {data?.events?.map((event, index) => (
-            <Grid.Col key={index} xs={6} sm={4} md={4} lg={3}>
+            <Grid.Col key={index} xs={6} sm={4} md={4} lg={4}>
               <EventCard key={index} event={event} />
             </Grid.Col>
           ))}

@@ -1,6 +1,6 @@
 'use client'
 
-import { Footer as FooterUI, Flex } from '@mantine/core'
+import { Footer as FooterUI, Flex, Text } from '@mantine/core'
 import NotificationAlert from './NotificationAlert'
 import { useAppContext } from '@/providers/AppProvider'
 import ErrorAlert from './ErrorAlert'
@@ -8,7 +8,7 @@ import ErrorAlert from './ErrorAlert'
 const Footer = () => {
   const { error, setError, notification, setNotification } = useAppContext()
   return (
-    <FooterUI height={60} p="md">
+    <FooterUI height="auto" p="xs">
       <Flex direction="column" gap={16}>
         {notification && (
           <NotificationAlert
@@ -17,7 +17,9 @@ const Footer = () => {
           />
         )}
         {error && <ErrorAlert error={error} onClose={() => setError('')} />}
-        <Flex justify="center">Wedding Quiz &copy; 2023</Flex>
+        <Text align="center" size={12}>
+          Quizzer &copy; 2023
+        </Text>
       </Flex>
     </FooterUI>
   )
