@@ -74,54 +74,61 @@ const Guests: React.FC = () => {
           isEmpty={isEmpty}
           emptyText="Nenhum convidado encontrado"
         >
-          <Table striped captionSide="bottom">
-            <thead>
-              <tr>
-                <th>
-                  <Box ta="center">#</Box>
-                </th>
-                <th>Nome</th>
-                <th>
-                  <Box ta="center">
-                    <IconUser size="1rem" />
-                  </Box>
-                </th>
-                <th>
-                  <Box ta="center">
-                    <IconSettings size="1rem" />
-                  </Box>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.guests?.map(({ id, name, user }) => (
-                <tr key={id}>
-                  <td>
-                    <Box ta="center">{id}</Box>
-                  </td>
-                  <td>{name || 'Convidado desconhecido'}</td>
-                  <td>
+          <Box style={{ overflowX: 'auto' }} mah="calc(100vh - 215px)">
+            <Table
+              striped
+              captionSide="bottom"
+              style={{ overflowX: 'auto' }}
+              mah="100%"
+            >
+              <thead>
+                <tr>
+                  <th>
+                    <Box ta="center">#</Box>
+                  </th>
+                  <th>Nome</th>
+                  <th>
                     <Box ta="center">
-                      {user && <IconCheck size="1rem" color="green" />}
+                      <IconUser size="1rem" />
                     </Box>
-                  </td>
-                  <td>
-                    <Flex justify="center" align="center" gap={16}>
-                      <IconEdit
-                        size="1rem"
-                        onClick={() => handleEditGuest(id)}
-                      />
-                      <IconTrash
-                        size="1rem"
-                        color="red"
-                        onClick={() => handleRemoveGuest(id)}
-                      />
-                    </Flex>
-                  </td>
+                  </th>
+                  <th>
+                    <Box ta="center">
+                      <IconSettings size="1rem" />
+                    </Box>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {data?.guests?.map(({ id, name, user }) => (
+                  <tr key={id}>
+                    <td>
+                      <Box ta="center">{id}</Box>
+                    </td>
+                    <td>{name || 'Convidado desconhecido'}</td>
+                    <td>
+                      <Box ta="center">
+                        {user && <IconCheck size="1rem" color="green" />}
+                      </Box>
+                    </td>
+                    <td>
+                      <Flex justify="center" align="center" gap={16}>
+                        <IconEdit
+                          size="1rem"
+                          onClick={() => handleEditGuest(id)}
+                        />
+                        <IconTrash
+                          size="1rem"
+                          color="red"
+                          onClick={() => handleRemoveGuest(id)}
+                        />
+                      </Flex>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Box>
         </DataRenderer>
       </Flex>
       <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={close} />
