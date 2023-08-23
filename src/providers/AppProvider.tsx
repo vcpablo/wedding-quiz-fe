@@ -25,13 +25,8 @@ export const AppProvider = ({ children }: any) => {
   const [notification, _setNotification] = useState<string>('')
 
   useEffect(() => {
-    console.log('should set false')
     setIsLoading(false)
   }, [pathname, searchParams])
-
-  useEffect(() => {
-    console.log({ isLoading })
-  }, [isLoading])
 
   useEffect(() => {
     const body = document.querySelector('body')
@@ -41,12 +36,10 @@ export const AppProvider = ({ children }: any) => {
   }, [isLoading])
 
   const navigate = (route: string) => {
-    // console.log(searchParams.entries)
     const queryString =
       Array.from(searchParams).length > 0 ? `?${searchParams.toString()}` : ''
     const url = `${pathname}${queryString}`
-    // console.log(route !== url, { route, url })
-    console.log('should set', route !== url)
+
     setIsLoading(route !== url)
     router.push(route)
   }

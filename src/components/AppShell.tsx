@@ -40,6 +40,8 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
       [theme.fn.smallerThan('md')]: {
         paddingLeft: `1rem`,
       },
+      maxHeight: '100vh',
+      overflowX: 'auto',
     },
   }
 
@@ -52,8 +54,8 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
     </>
   ) : (
     <AppShellUI styles={styles} footer={<Footer />} header={<Header />}>
-      <Container py={6} my="48px">
-        <>{children}</>
+      <Container py={6} my="48px" mih="calc(100vh - 100px)" display="flex">
+        <Box style={{ flex: 1 }}>{children}</Box>
       </Container>
     </AppShellUI>
   )

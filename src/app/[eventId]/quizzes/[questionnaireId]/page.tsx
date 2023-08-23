@@ -9,6 +9,13 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import { Option } from '@/types'
 import QuestionOption from '@/components/QuestionOption'
 import DataRenderer from '@/components/DataRenderer'
+import { IconCheck } from '@tabler/icons-react'
+
+type ButtonProps = {
+  label: string
+  color: string
+  icon: React.ReactNode
+}
 
 const Questionnaire: React.FC = () => {
   const { event } = useEventContext()
@@ -34,8 +41,19 @@ const Questionnaire: React.FC = () => {
     [questionnaire]
   )
 
-  const buttonLabel: string = useMemo(
-    () => (isLastQuestion ? 'Concluir' : 'Próxima pergunta'),
+  const buttonProps: ButtonProps = useMemo(
+    () =>
+      isLastQuestion
+        ? {
+            label: 'Concluir',
+            color: 'green',
+            icon: <IconCheck size="1rem" />,
+          }
+        : {
+            label: 'Próxima pergunta',
+            color: 'blue',
+            icon: null,
+          },
     [isLastQuestion]
   )
 
@@ -89,13 +107,14 @@ const Questionnaire: React.FC = () => {
       {!isEmpty && (
         <Flex direction="column" gap={16}>
           <Button
-            color="blue"
             fullWidth
             radius="md"
             onClick={handleNextQuestion}
             disabled={!selectedOption}
+            color={buttonProps.color}
+            leftIcon={buttonProps.icon}
           >
-            {buttonLabel}
+            {buttonProps.label}
           </Button>
         </Flex>
       )}
