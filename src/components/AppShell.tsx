@@ -41,7 +41,7 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
         paddingLeft: `1rem`,
       },
       maxHeight: '100vh',
-      overflowX: 'auto',
+      overflow: 'auto',
     },
   }
 
