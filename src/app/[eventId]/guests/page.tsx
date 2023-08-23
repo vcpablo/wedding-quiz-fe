@@ -4,6 +4,9 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import ConfirmationModal from '@/components/ConfirmationModal'
 import DataRenderer from '@/components/DataRenderer'
 import {
+  DeleteGuestDocument,
+  DeleteGuestMutation,
+  DeleteGuestMutationVariables,
   GetGuestsByEventsDocument,
   GetGuestsByEventsQuery,
   GetGuestsByEventsQueryVariables,
@@ -11,7 +14,8 @@ import {
 import { useAppContext } from '@/providers/AppProvider'
 
 import { useEventContext } from '@/providers/EventProvider'
-import { useQuery } from '@apollo/client'
+import { Guest } from '@/types'
+import { useMutation, useQuery } from '@apollo/client'
 import { Box, Button, Flex, Table, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
@@ -23,15 +27,24 @@ import {
   IconUser,
   IconX,
 } from '@tabler/icons-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+
+type SelectedGuest = {
+  id: number
+  name: string
+}
 
 const Guests: React.FC = () => {
   const { event } = useEventContext()
-  const { navigate } = useAppContext()
+  const { navigate, setIsLoading, setNotification, setError } = useAppContext()
+  const [selectedGuest, setSelectedGuest] = useState<SelectedGuest | null>(null)
 
-  const [isConfirmationModalOpen, { open, close }] = useDisclosure(false)
+  const [
+    isConfirmationModalOpen,
+    { open: openConfirmationModal, close: closeConfirmationModal },
+  ] = useDisclosure(false)
 
-  const { data, loading } = useQuery<
+  const { data, loading, refetch } = useQuery<
     GetGuestsByEventsQuery,
     GetGuestsByEventsQueryVariables
   >(GetGuestsByEventsDocument, {
@@ -41,6 +54,11 @@ const Guests: React.FC = () => {
     fetchPolicy: 'no-cache',
     skip: !event?.id,
   })
+
+  const [deleteGuest] = useMutation<
+    DeleteGuestMutation,
+    DeleteGuestMutationVariables
+  >(DeleteGuestDocument)
 
   const breadcrumbs = [
     { title: 'Meus eventos', href: '/' },
@@ -53,7 +71,32 @@ const Guests: React.FC = () => {
 
   const handleEditGuest = (id: number) => navigate(`/${event.id}/guests/${id}`)
 
-  const handleRemoveGuest = (id: number) => console.log('delete')
+  const handleRemoveGuest = (guest: SelectedGuest) => {
+    setSelectedGuest(guest)
+    openConfirmationModal()
+  }
+
+  const handleConfirmRemoveGuest = async () => {
+    try {
+      setIsLoading(true)
+      await deleteGuest({
+        variables: {
+          id: Number(selectedGuest?.id),
+        },
+      })
+
+      setNotification('Convidado removido com sucesso')
+
+      refetch()
+      setSelectedGuest(null)
+      closeConfirmationModal()
+    } catch (error: any) {
+      console.error(error)
+      setError('Erro ao remover convidado')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <>
@@ -120,7 +163,9 @@ const Guests: React.FC = () => {
                         <IconTrash
                           size="1rem"
                           color="red"
-                          onClick={() => handleRemoveGuest(id)}
+                          onClick={() =>
+                            handleRemoveGuest({ id, name: String(name) })
+                          }
                         />
                       </Flex>
                     </td>
@@ -131,7 +176,13 @@ const Guests: React.FC = () => {
           </Box>
         </DataRenderer>
       </Flex>
-      <ConfirmationModal isOpen={isConfirmationModalOpen} onClose={close} />
+      <ConfirmationModal
+        title="Confirmar exclusão"
+        message={`Deseja realmente excluir o convidado ${selectedGuest?.name}?`}
+        isOpen={isConfirmationModalOpen}
+        onClose={close}
+        onConfirm={handleConfirmRemoveGuest}
+      />
     </>
   )
 }
