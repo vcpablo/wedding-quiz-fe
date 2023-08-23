@@ -1,16 +1,22 @@
 'use client'
 
 import { useMediaQuery } from '@mantine/hooks'
-import { Modal } from '@mantine/core'
+import { Button, Flex, Modal, Text } from '@mantine/core'
 
 type ConfirmationModalProps = {
+  title: string
+  message: string
   isOpen: boolean
   onClose: () => void
+  onConfirm: () => void
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+  title,
+  message,
   isOpen,
   onClose,
+  onConfirm,
 }) => {
   const isMobile = useMediaQuery('(max-width: 50em)')
 
@@ -18,11 +24,18 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     <Modal
       opened={isOpen}
       onClose={onClose}
-      title="This is a fullscreen modal"
-      fullScreen={isMobile}
+      title={title}
       transitionProps={{ transition: 'fade', duration: 200 }}
     >
-      The Modal will be full screen only on mobile
+      <Flex direction="column" gap={10}>
+        <Text>{message}</Text>
+        <Flex justify="end" gap={10}>
+          <Button variant="outline" color="gray" onClick={onClose}>
+            Não
+          </Button>
+          <Button onClick={onConfirm}>Sim</Button>
+        </Flex>
+      </Flex>
     </Modal>
   )
 }

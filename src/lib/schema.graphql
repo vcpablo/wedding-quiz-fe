@@ -295,3 +295,9 @@ mutation UpdateGuest($id: Int!, $name: String!, $email: String, $phone: String) 
     phone
   }
 }
+
+mutation DeleteGuest($id: Int!) {
+  delete_guests_by_pk(id: $id) {
+    id
+  }
+}
