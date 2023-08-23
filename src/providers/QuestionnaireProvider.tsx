@@ -111,9 +111,14 @@ export const QuestionnaireProvider = ({ children }: any) => {
       const lastAnsweredQuestionIndex = questions.findIndex(
         (question) => question.id === lastAnsweredQuestionId
       )
-      const currentAnsweredQuestionId = questions[lastAnsweredQuestionIndex]?.id
 
-      if (lastAnsweredQuestionId && /^\/quizzes\/[0-9]$/.test(pathname)) {
+      const currentAnsweredQuestionId =
+        questions[lastAnsweredQuestionIndex + 1]?.id
+
+      if (
+        lastAnsweredQuestionId &&
+        /^\/[0-9]\/quizzes\/[0-9]$/.test(pathname)
+      ) {
         navigate(`${pathname}?questionId=${currentAnsweredQuestionId}`)
       }
     }
@@ -126,8 +131,6 @@ export const QuestionnaireProvider = ({ children }: any) => {
       const questionIndex = questionnaire?.questions?.findIndex(
         ({ id }) => id === questionId
       )
-
-      console.log({ questionIndex })
 
       setActiveQuestionIndex(questionIndex)
 

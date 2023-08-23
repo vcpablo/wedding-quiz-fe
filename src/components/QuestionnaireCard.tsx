@@ -42,6 +42,11 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     [questionnaire]
   )
 
+  const progressColor = useMemo(
+    () => (progress === 100 ? 'green' : 'blue'),
+    [progress]
+  )
+
   const status = useMemo(() => getQuestionnaireStatus(progress), [progress])
 
   const buttonAttrs = useMemo(
@@ -56,6 +61,9 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
   }, [progress])
 
   const handleClick = useCallback(() => {
+    const isQuestionnaireComplete = progress === 100
+    if (isQuestionnaireComplete) return
+
     const isQuestionnaireNotStarted = progress === 0
     const isQuestionnaireStarted = progress > 0 && progress < 100
 
@@ -78,6 +86,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
       radius="md"
       withBorder
       style={{ cursor: 'pointer' }}
+      onClick={() => handleClick}
     >
       <Card.Section>
         <Image
@@ -93,7 +102,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
         </Flex>
         <Box w="100%">
           <Text size="xs">Progresso {progress}%</Text>
-          <Progress value={progress} w="100%" size="lg" />
+          <Progress value={progress} w="100%" size="lg" color={progressColor} />
         </Box>
 
         <QuestionnaireBadge status={status} />
