@@ -18,7 +18,7 @@ import { useState } from 'react'
 const Header: React.FC = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false)
 
-  const { user, logout } = useAuthContext()
+  const { user, logout, isLoggedIn } = useAuthContext()
   const { navigate } = useAppContext()
 
   const handleOpenLogoutModal = () => setIsLogoutModalOpen(true)
@@ -43,17 +43,19 @@ const Header: React.FC = () => {
                   Quizzer
                 </Text>
               </Flex>
-              <Flex align="center" gap={10}>
-                <IconUserCircle size="1rem" color="gray" />
-                {user.data?.name}
-                <ActionIcon
-                  variant="light"
-                  color="red"
-                  onClick={handleOpenLogoutModal}
-                >
-                  <IconLogout size="1rem" />
-                </ActionIcon>
-              </Flex>
+              {isLoggedIn && (
+                <Flex align="center" gap={10}>
+                  <IconUserCircle size="1rem" color="gray" />
+                  {user.data?.name}
+                  <ActionIcon
+                    variant="light"
+                    color="red"
+                    onClick={handleOpenLogoutModal}
+                  >
+                    <IconLogout size="1rem" />
+                  </ActionIcon>
+                </Flex>
+              )}
             </Flex>
           </Flex>
         </Container>
