@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }: any) => {
   const { navigate, setIsLoading, isLoading, setError } = useAppContext()
 
   const checkAuthentication = async (pathname: string) => {
+    const isLoginRoute = pathname === '/login'
+
     try {
       setIsLoading(true)
       setUser((state) => ({
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }: any) => {
         data,
       }))
 
-      if (pathname === '/login') {
+      if (isLoginRoute) {
         navigate('/')
       }
     } catch (error: any) {
@@ -56,7 +58,7 @@ export const AuthProvider = ({ children }: any) => {
 
       if (error.code === 'ERR_NETWORK') {
         setError('Conexão de internet não disponível no momento')
-      } else if (error?.response?.status === 401) {
+      } else if (error?.response?.status === 401 && !isLoginRoute) {
         const returnURL = pathname === '/login' ? '' : `?returnUrl=${pathname}`
         navigate(`/login${returnURL}`)
       }
@@ -103,6 +105,7 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
+    // if(pathname !== '/login')
     checkAuthentication(pathname)
   }, [pathname])
 
