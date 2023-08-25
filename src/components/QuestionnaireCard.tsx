@@ -60,21 +60,24 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     return <IconPlayerSkipForward size="1rem" />
   }, [progress])
 
-  const handleClick = useCallback(() => {
-    const isQuestionnaireComplete = progress === 100
-    if (isQuestionnaireComplete) return
+  const handleClick = useCallback(
+    (bypass: boolean) => {
+      const isQuestionnaireComplete = progress === 100
+      if (isQuestionnaireComplete && !bypass) return
 
-    const isQuestionnaireNotStarted = progress === 0
-    const isQuestionnaireStarted = progress > 0 && progress < 100
+      const isQuestionnaireNotStarted = progress === 0
+      const isQuestionnaireStarted = progress > 0 && progress < 100
 
-    const url = `/${questionnaire.event_id}/quizzes/${questionnaire.id}`
-    const route =
-      isQuestionnaireStarted || isQuestionnaireNotStarted
-        ? url
-        : `${url}/ranking`
+      const url = `/${questionnaire.event_id}/quizzes/${questionnaire.id}`
+      const route =
+        isQuestionnaireStarted || isQuestionnaireNotStarted
+          ? url
+          : `${url}/ranking`
 
-    navigate(route)
-  }, [questionnaire, progress])
+      navigate(route)
+    },
+    [questionnaire, progress]
+  )
 
   const handleViewPrizes = () =>
     navigate(`/${questionnaire.event_id}/quizzes/${questionnaire.id}/prizes`)
@@ -86,7 +89,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
       radius="md"
       withBorder
       style={{ cursor: 'pointer' }}
-      onClick={() => handleClick}
+      onClick={() => handleClick(false)}
     >
       <Card.Section>
         <Image
@@ -117,7 +120,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
           color={buttonAttrs.color}
           fullWidth
           radius="md"
-          onClick={() => handleClick()}
+          onClick={() => handleClick(true)}
           leftIcon={buttonIcon}
         >
           {buttonAttrs.label}
@@ -129,7 +132,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
             fullWidth
             radius="md"
             leftIcon={<IconTrophy size="1rem" />}
-            onClick={() => handleViewPrizes()}
+            onClick={handleViewPrizes}
           >
             Prêmios
           </Button>
