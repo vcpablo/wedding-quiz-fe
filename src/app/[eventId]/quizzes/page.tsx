@@ -8,21 +8,17 @@ import {
   GetEventQuestionnairesGuestAnswersQuery,
   GetEventQuestionnairesGuestAnswersQueryVariables,
 } from '@/lib/wedding/graphql'
-import { useAppContext } from '@/providers/AppProvider'
 
 import { useAuthContext } from '@/providers/AuthProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { Questionnaire } from '@/types'
 import { useQuery } from '@apollo/client'
 import { Flex, Grid, Title } from '@mantine/core'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 const Quizzes: React.FC = () => {
   const { user } = useAuthContext()
   const { event } = useEventContext()
-  const { setIsLoading } = useAppContext()
-
-  const { navigate } = useAppContext()
 
   const { data, loading } = useQuery<
     GetEventQuestionnairesGuestAnswersQuery,
@@ -64,7 +60,6 @@ const Quizzes: React.FC = () => {
                 <Flex
                   key={index}
                   direction={{ base: 'column', sm: 'row' }}
-                  // maw={{ base: '100%', sm: 'calc(100% * (1/4) - 12px)' }}
                   h="100%"
                   style={{
                     flexGrow: '1',
@@ -80,8 +75,6 @@ const Quizzes: React.FC = () => {
             )
           })}
         </Grid>
-        {/* <Flex wrap="wrap" gap={16}>
-        </Flex> */}
       </DataRenderer>
     </Flex>
   )

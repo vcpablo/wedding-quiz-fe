@@ -7,7 +7,7 @@ import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import { Prize } from '@/types'
-import { Button, Flex, Title } from '@mantine/core'
+import { Button, Flex, Grid, Title } from '@mantine/core'
 import { IconListNumbers } from '@tabler/icons-react'
 
 interface QuestionnairePrizesProps {}
@@ -39,11 +39,13 @@ const QuestionnairePrizes: React.FC<QuestionnairePrizesProps> = () => {
 
       <Flex h="100%" direction="column" justify="space-between">
         <DataRenderer isEmpty={!hasPrizes} emptyText="Nenhum prêmio encontrado">
-          <Flex direction="column" gap={16}>
+          <Grid>
             {questionnaire?.prizes?.map((prize: Prize, index: number) => (
-              <PrizeCard key={index} prize={prize} />
+              <Grid.Col key={index} xs={6} sm={4} md={4} lg={4}>
+                <PrizeCard key={index} prize={prize} />
+              </Grid.Col>
             ))}
-          </Flex>
+          </Grid>
         </DataRenderer>
       </Flex>
 
