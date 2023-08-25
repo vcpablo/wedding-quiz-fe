@@ -16,6 +16,7 @@ import { withUrqlClient } from 'next-urql'
 import { cacheExchange, fetchExchange } from 'urql'
 
 import AppShell from '@/components/AppShell'
+import { NextPage } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -54,4 +55,4 @@ export default withUrqlClient(() => ({
       'X-Hasura-Admin-Secret': String(process.env.NEXT_PUBLIC_API_SECRET),
     },
   },
-}))(RootLayout)
+}))(RootLayout) as NextPage
