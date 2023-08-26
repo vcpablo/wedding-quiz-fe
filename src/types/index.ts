@@ -108,3 +108,9 @@ export enum UserRoles {
   Admin = 'admin',
   Guest = 'guest',
 }
+
+export type QuestionnaireProgress = {
+  totalQuestions: number
+  totalAnswers: number
+  progress: number
+}

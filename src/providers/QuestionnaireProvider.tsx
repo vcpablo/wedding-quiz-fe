@@ -93,8 +93,14 @@ export const QuestionnaireProvider = ({ children }: any) => {
   useEffect(() => setIsLoading(loading), [loading])
 
   useEffect(() => {
-    if (params?.questionnaireId !== String(questionnaire?.id)) {
-      refetch()
+    if (
+      questionnaireId &&
+      String(questionnaireId) !== String(questionnaire?.id)
+    ) {
+      refetch({
+        questionnaireId,
+        userId: user.data?.id,
+      })
     }
   }, [params])
 
@@ -108,12 +114,19 @@ export const QuestionnaireProvider = ({ children }: any) => {
       const lastAnsweredQuestionId: number =
         maxBy('updated_at', answers)?.question_id || questions[0]?.id
 
+      console.log({ lastAnsweredQuestionId })
+
       const lastAnsweredQuestionIndex = questions.findIndex(
         (question) => question.id === lastAnsweredQuestionId
       )
 
+      const lastAnsweredQuestionIndexKey =
+        answers.length > 0
+          ? lastAnsweredQuestionIndex + 1
+          : lastAnsweredQuestionIndex
+
       const currentAnsweredQuestionId =
-        questions[lastAnsweredQuestionIndex + 1]?.id
+        questions[lastAnsweredQuestionIndexKey]?.id
 
       if (
         lastAnsweredQuestionId &&
@@ -184,7 +197,7 @@ export const QuestionnaireProvider = ({ children }: any) => {
           variables: {
             questionId: activeQuestion.id,
             optionId: selectedOption,
-            userId: user.data.id,
+            userId: user.data?.id,
           },
         })
       }

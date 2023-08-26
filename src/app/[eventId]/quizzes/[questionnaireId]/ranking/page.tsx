@@ -2,7 +2,6 @@
 
 import Breadcrumbs from '@/components/Breadcrumbs'
 import DataRenderer from '@/components/DataRenderer'
-import LoadingOverlay from '@/components/LoadingOverlay'
 import { getRanking } from '@/helpers/questionnaire'
 import {
   GetQuestionnaireRankingDocument,
@@ -13,8 +12,17 @@ import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { useQuestionnaireContext } from '@/providers/QuestionnaireProvider'
 import { useQuery } from '@apollo/client'
-import { Box, Button, Flex, Paper, Table, Title } from '@mantine/core'
-import { IconTrophy } from '@tabler/icons-react'
+import {
+  Box,
+  Button,
+  Flex,
+  Paper,
+  Popover,
+  Table,
+  Text,
+  Title,
+} from '@mantine/core'
+import { IconHelpCircle, IconInfoCircle, IconTrophy } from '@tabler/icons-react'
 import { useMemo } from 'react'
 
 interface QuestionnaireRankingProps {}
@@ -60,52 +68,85 @@ const QuestionnaireRanking: React.FC<QuestionnaireRankingProps> = () => {
         isEmpty={isEmpty}
         emptyText="Nenhuma participação encontrada"
       >
-        <Flex h="100%" direction="column" justify="space-between">
-          <Paper shadow="xs" p="md">
-            <Table striped captionSide="bottom">
-              <thead>
-                <tr>
-                  <th>
-                    <Box ta="center">Posição</Box>
-                  </th>
-                  <th>Convidado</th>
-                  <th>
-                    <Box ta="center">Pontos</Box>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.get_questionnaire_ranking?.map(
-                  ({ id, name, email, phone, points }, index) => (
-                    <tr key={id}>
-                      <td>
-                        <Box ta="center">{getRanking(index + 1)}</Box>
-                      </td>
-                      <td>
-                        {name || email || phone || 'Usuário desconhecido'}
-                      </td>
-                      <td>
-                        <Box ta="center">{points}</Box>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </Table>
-          </Paper>
+        <Flex h="100%" direction="column" gap={16}>
+          <Flex align="center" gap={5}>
+            <Text color="gray" size="xs">
+              Ranking parcial
+            </Text>
+            <Popover width="60vw" position="bottom" withArrow shadow="md">
+              <Popover.Target>
+                <IconHelpCircle size="1rem" color="gray" />
+              </Popover.Target>
+              <Popover.Dropdown>
+                <Text size="sm">
+                  <Text>
+                    Os pontos são contabilizados assim que cada pergunta é
+                    respondida.
+                  </Text>
+                  <Text>
+                    Alguns convidados podem ainda não ter concluído o
+                    questionário.
+                  </Text>
+                </Text>
+              </Popover.Dropdown>
+            </Popover>
+          </Flex>
+          <Flex h="100%" direction="column" justify="space-between" gap={16}>
+            <Paper shadow="xs" p="md">
+              <Table striped captionSide="bottom">
+                <thead>
+                  <tr>
+                    <th>
+                      <Box ta="center">Posição</Box>
+                    </th>
+                    <th>Convidado</th>
+                    <th>
+                      <Box ta="center">Pontos</Box>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.get_questionnaire_ranking?.map(
+                    ({ id, name, email, phone, points }, index) => (
+                      <tr key={id}>
+                        <td>
+                          <Box ta="center">
+                            {getRanking({
+                              position: index + 1,
+                              prizes: questionnaire?.prizes || [],
+                            })}
+                          </Box>
+                        </td>
+                        <td>
+                          {name || email || phone || 'Usuário desconhecido'}
+                        </td>
+                        <td>
+                          <Box ta="center">{points}</Box>
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </Table>
+            </Paper>
 
-          <Flex w="100%">
-            {hasPrizes && (
-              <Button
-                color="yellow"
-                fullWidth
-                radius="md"
-                leftIcon={<IconTrophy size="1rem" />}
-                onClick={handleViewPrizes}
-              >
-                Ver prêmios
-              </Button>
-            )}
+            <Text size="xs" color="gray">
+              Somente os convidados marcados com medalhas tem direito a prêmios.
+            </Text>
+
+            <Flex w="100%">
+              {hasPrizes && (
+                <Button
+                  color="yellow"
+                  fullWidth
+                  radius="md"
+                  leftIcon={<IconTrophy size="1rem" />}
+                  onClick={handleViewPrizes}
+                >
+                  Ver prêmios
+                </Button>
+              )}
+            </Flex>
           </Flex>
         </Flex>
       </DataRenderer>

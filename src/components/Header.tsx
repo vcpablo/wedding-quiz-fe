@@ -11,7 +11,6 @@ import {
   Modal,
   Text,
 } from '@mantine/core'
-import { IconUserCircle } from '@tabler/icons-react'
 import { IconLogout } from '@tabler/icons-react'
 import { useState } from 'react'
 
@@ -45,7 +44,6 @@ const Header: React.FC = () => {
               </Flex>
               {isLoggedIn && (
                 <Flex align="center" gap={10}>
-                  <IconUserCircle size="1rem" color="gray" />
                   {user.data?.name}
                   <ActionIcon
                     variant="light"

@@ -143,7 +143,7 @@ query GetEventQuestionnaireUserAnswersById($questionnaireId: Int, $userId: Int!)
     event {
       name
     }
-    questions {
+    questions(order_by: { id: asc }) {
       id
       title
       type

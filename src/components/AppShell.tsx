@@ -9,12 +9,11 @@ import Header from './Header'
 
 import { useAuthContext } from '@/providers/AuthProvider'
 import { useAppContext } from '@/providers/AppProvider'
-import { IconLogout } from '@tabler/icons-react'
-import LoadingOverlay from './LoadingOverlay'
 import ErrorAlert from './ErrorAlert'
 import Footer from './Footer'
-import DataRenderer from './DataRenderer'
+
 import { usePathname } from 'next/navigation'
+import { useMediaQuery } from '@mantine/hooks'
 
 const AppShell = ({ children }: { children: React.ReactElement }) => {
   const theme = useMantineTheme()
@@ -40,12 +39,13 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
       [theme.fn.smallerThan('md')]: {
         paddingLeft: `1rem`,
       },
-      maxHeight: '100vh',
+      height: 'calc(100vh - 30px)',
       overflow: 'auto',
     },
   }
 
   const isLoginPage = pathname === '/login'
+  const matches = useMediaQuery('(max-width: 575px)')
 
   return isLoginPage ? (
     <>
@@ -54,8 +54,10 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
     </>
   ) : (
     <AppShellUI styles={styles} footer={<Footer />} header={<Header />}>
-      <Container py={6} my="48px" mih="calc(100vh - 100px)" display="flex">
-        <Box style={{ flex: 1 }}>{children}</Box>
+      <Container pt={matches ? 150 : 50} h="90%">
+        <Box w="100%" pb={50}>
+          {children}
+        </Box>
       </Container>
     </AppShellUI>
   )

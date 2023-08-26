@@ -26,7 +26,7 @@ export const EventProvider = ({ children }: any) => {
 
   const { eventId } = params
 
-  const { loading, data, error } = useQuery<
+  const { loading, data, error, refetch } = useQuery<
     GetEventQuery,
     GetEventQueryVariables
   >(GetEventDocument, {
@@ -36,13 +36,33 @@ export const EventProvider = ({ children }: any) => {
     skip: !eventId || !!event,
   })
 
+  useEffect(() => {
+    // const refetchEvent = async () => {
+    //   console.log({ eventId })
+    //   if (eventId) {
+    //     await
+    //   }
+    // }
+
+    if (eventId) {
+      refetch().then(({ data }) => {
+        setEvent(data?.events_by_pk)
+      })
+    } else {
+      setEvent(null)
+    }
+
+    // refetchEvent()
+  }, [eventId])
+
   useEffect(() => setIsLoading(loading), [loading])
 
-  useEffect(() => {
-    if (data?.events_by_pk) {
-      setEvent(data?.events_by_pk)
-    }
-  }, [data])
+  // useEffect(() => {
+  //   console.log('set event')
+  //   if (data?.events_by_pk) {
+  //     setEvent(data?.events_by_pk)
+  //   }
+  // }, [data])
 
   return (
     <EventContext.Provider value={{ loading, event, error, setEvent }}>

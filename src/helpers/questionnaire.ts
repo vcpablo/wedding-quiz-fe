@@ -1,19 +1,32 @@
 'use client'
 
-import { Questionnaire, QuestionnaireStatus } from '@/types'
+import {
+  Prize,
+  Questionnaire,
+  QuestionnaireProgress,
+  QuestionnaireStatus,
+} from '@/types'
 
 export const getQuestionnaireProgress = (
   questionnaire: Questionnaire
-): number => {
-  const answers =
+): QuestionnaireProgress => {
+  const totalQuestions = questionnaire.questions.length
+
+  const totalAnswers =
     questionnaire.questions.reduce(
       (acc, question) => (acc += question.answers.length),
       0
     ) || 0
 
-  return parseInt(
-    String((answers * 100) / (questionnaire?.questions?.length || 1))
+  const progress = parseInt(
+    String((totalAnswers * 100) / (questionnaire?.questions?.length || 1))
   )
+
+  return {
+    totalQuestions,
+    totalAnswers,
+    progress,
+  }
 }
 
 export const getQuestionnaireStatus = (
@@ -51,11 +64,21 @@ export const getQuestionnaireBadgeColor = (
   return 'blue'
 }
 
-export const getRanking = (position: number): string => {
+type GetRankingInput = {
+  position: number
+  prizes: Prize[]
+}
+
+export const getRanking = ({ position, prizes }: GetRankingInput): string => {
   if (!position) return ''
 
+  if (prizes.length === 0) {
+    return String(position)
+  }
+
   if (position === 1) return '🥇'
-  if (position === 2) return '🥈'
+  if (prizes.length > 1 && position === 2) return '🥈'
+  if (prizes.length > 2 && position === 3) return '🥉'
 
   return String(position)
 }

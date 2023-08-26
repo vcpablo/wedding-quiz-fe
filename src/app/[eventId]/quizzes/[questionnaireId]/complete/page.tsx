@@ -14,16 +14,6 @@ const QuestionnaireComplete: React.FC<QuestionnaireCompleteProps> = () => {
   const { questionnaire } = useQuestionnaireContext()
   const { navigate } = useAppContext()
 
-  const breadcrumbs = [
-    { title: 'Meus eventos', href: '/' },
-    { title: String(event?.name), href: `/${event?.id}/quizzes` },
-    {
-      title: String(questionnaire?.title),
-      href: `/${event?.id}/quizzes/${questionnaire?.id}`,
-      active: true,
-    },
-  ]
-
   const handleLeave = () => {
     navigate(`/${questionnaire?.event_id}/quizzes`)
   }
@@ -50,16 +40,21 @@ const QuestionnaireComplete: React.FC<QuestionnaireCompleteProps> = () => {
             styles={{
               imageWrapper: {
                 height: '250px',
-                width: '250px',
+                width: '100%',
               },
               image: {
                 height: '250px !important',
-                width: '250px !important',
+                width: '100% !important',
               },
             }}
           />
-          <Text size="lg">Parabéns!</Text>
-          <Text>Você concluiu o questionário.</Text>
+          <Text align="center">
+            <Text size="lg">Parabéns!</Text>
+            <Text>
+              Você concluiu o questionário do evento{' '}
+              <Text fw="bold">{event?.name}</Text>
+            </Text>
+          </Text>
         </Flex>
       </Flex>
       <Flex w="100%" gap={16}>

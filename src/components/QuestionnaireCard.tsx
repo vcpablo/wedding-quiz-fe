@@ -1,16 +1,7 @@
 'use client'
 
 import { Questionnaire } from '@/types'
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Group,
-  Image,
-  Progress,
-  Text,
-} from '@mantine/core'
+import { Box, Button, Card, Flex, Group, Image, Text } from '@mantine/core'
 import { useCallback, useMemo } from 'react'
 import QuestionnaireBadge from './QuestionnaireBadge'
 import {
@@ -19,12 +10,14 @@ import {
   getQuestionnaireStatus,
 } from '@/helpers/questionnaire'
 import {
+  IconExclamationCircle,
   IconListNumbers,
   IconPlayerPlay,
   IconPlayerSkipForward,
   IconTrophy,
 } from '@tabler/icons-react'
 import { useAppContext } from '@/providers/AppProvider'
+import QuestionnaireProgress from './QuestionnaireProgress'
 
 type QuestionnaireCardProps = {
   questionnaire: Questionnaire
@@ -37,14 +30,9 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
 }) => {
   const { navigate } = useAppContext()
 
-  const progress = useMemo(
+  const { progress, totalAnswers, totalQuestions } = useMemo(
     () => getQuestionnaireProgress(questionnaire),
     [questionnaire]
-  )
-
-  const progressColor = useMemo(
-    () => (progress === 100 ? 'green' : 'blue'),
-    [progress]
   )
 
   const status = useMemo(() => getQuestionnaireStatus(progress), [progress])
@@ -59,6 +47,11 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     if (progress === 100) return <IconListNumbers size="1rem" />
     return <IconPlayerSkipForward size="1rem" />
   }, [progress])
+
+  const hasNoQuestion = useMemo(
+    () => questionnaire?.questions?.length === 0,
+    [questionnaire]
+  )
 
   const handleClick = useCallback(
     (bypass: boolean) => {
@@ -79,8 +72,10 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
     [questionnaire, progress]
   )
 
-  const handleViewPrizes = () =>
+  const handleViewPrizes = (event: any) => {
+    event.stopPropagation()
     navigate(`/${questionnaire.event_id}/quizzes/${questionnaire.id}/prizes`)
+  }
 
   return (
     <Card
@@ -104,40 +99,50 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
           <Text weight={500}>{questionnaire.title}</Text>
         </Flex>
         <Box w="100%">
-          <Text size="xs">Progresso {progress}%</Text>
-          <Progress value={progress} w="100%" size="lg" color={progressColor} />
+          <QuestionnaireProgress
+            {...{ progress, totalAnswers, totalQuestions }}
+          />
         </Box>
 
         <QuestionnaireBadge status={status} />
-      </Group>
+        <Text size="sm" color="dimmed">
+          {questionnaire.description}
+        </Text>
 
-      <Text size="sm" color="dimmed">
-        {questionnaire.description}
-      </Text>
-
-      <Flex gap={16} align="center" mt="md">
-        <Button
-          color={buttonAttrs.color}
-          fullWidth
-          radius="md"
-          onClick={() => handleClick(true)}
-          leftIcon={buttonIcon}
-        >
-          {buttonAttrs.label}
-        </Button>
-
-        {hasPrizes && (
+        <Flex gap={16} align="center" w="100%">
           <Button
-            color="yellow"
+            color={buttonAttrs.color}
             fullWidth
             radius="md"
-            leftIcon={<IconTrophy size="1rem" />}
-            onClick={handleViewPrizes}
+            onClick={() => handleClick(true)}
+            leftIcon={buttonIcon}
+            disabled={hasNoQuestion}
           >
-            Prêmios
+            {buttonAttrs.label}
           </Button>
+
+          {hasPrizes && (
+            <Button
+              color="yellow"
+              fullWidth
+              radius="md"
+              leftIcon={<IconTrophy size="1rem" />}
+              onClick={handleViewPrizes}
+            >
+              Prêmios
+            </Button>
+          )}
+        </Flex>
+
+        {hasNoQuestion && (
+          <Flex align="center" gap={5}>
+            <IconExclamationCircle size="0.725rem" color="red" />
+            <Text color="red" size="xs" align="center">
+              Este questionário não possui perguntas
+            </Text>
+          </Flex>
         )}
-      </Flex>
+      </Group>
     </Card>
   )
 }

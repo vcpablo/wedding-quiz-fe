@@ -7,6 +7,7 @@ import ErrorAlert from './ErrorAlert'
 
 const Footer = () => {
   const { error, setError, notification, setNotification } = useAppContext()
+
   return (
     <FooterUI height="auto" p="xs">
       <Flex direction="column" gap={16}>

@@ -2,8 +2,8 @@
 
 import { PropsWithChildren, useEffect } from 'react'
 import EmptyState from './EmptyState'
-import { LoadingOverlay } from '@mantine/core'
 import { useAppContext } from '@/providers/AppProvider'
+import Loading from './Loading'
 
 type DataRendererProps = {
   isLoading?: boolean
@@ -22,6 +22,8 @@ const DataRenderer: React.FC<DataRendererProps & PropsWithChildren> = ({
   useEffect(() => {
     setIsLoading(!!isLoading)
   }, [isLoading])
+
+  if (isLoading) return <Loading />
 
   return <>{isEmpty ? <EmptyState text={emptyText} /> : <>{children}</>}</>
 }

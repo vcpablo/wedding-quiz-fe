@@ -12,25 +12,29 @@ import {
 import { useAuthContext } from '@/providers/AuthProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { Questionnaire } from '@/types'
-import { useQuery } from '@apollo/client'
-import { Flex, Grid, Title } from '@mantine/core'
-import { useMemo } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import { Flex, Grid, Text, Title } from '@mantine/core'
+import { useEffect, useMemo } from 'react'
 
 const Quizzes: React.FC = () => {
   const { user } = useAuthContext()
   const { event } = useEventContext()
 
-  const { data, loading } = useQuery<
+  const [fetch, { data, loading }] = useLazyQuery<
     GetEventQuestionnairesGuestAnswersQuery,
     GetEventQuestionnairesGuestAnswersQueryVariables
-  >(GetEventQuestionnairesGuestAnswersDocument, {
-    variables: {
-      userId: user.data?.id,
-      eventId: event?.id,
-    },
-    fetchPolicy: 'no-cache',
-    skip: !event?.id || !user.data?.id,
-  })
+  >(GetEventQuestionnairesGuestAnswersDocument)
+
+  useEffect(() => {
+    if (event?.id) {
+      fetch({
+        variables: {
+          eventId: event?.id,
+          userId: user.data?.id,
+        },
+      })
+    }
+  }, [event?.id])
 
   const breadcrumbs = [
     { title: 'Meus eventos', href: '/' },
@@ -46,6 +50,9 @@ const Quizzes: React.FC = () => {
     <Flex direction="column" gap={16}>
       <Breadcrumbs items={breadcrumbs} />
       <Title>Quizzes</Title>
+      <Text size="sm" color="dimmed">
+        Estes são os questionários disponíveis para o evento {event?.name}.
+      </Text>
       <DataRenderer
         isLoading={loading}
         isEmpty={isEmpty}
