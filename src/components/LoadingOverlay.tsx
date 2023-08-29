@@ -23,7 +23,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
             zIndex: 1,
             display: 'flex',
             width: '100vw',
-            height: '100vh',
+            height: '100dvh',
             justifyContent: 'center',
             alignItems: 'center',
           }}

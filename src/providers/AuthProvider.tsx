@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }: any) => {
         magicLogout,
       }}
     >
-      <Box h="100vh">
+      <Box h="100dvh">
         <LoadingOverlay
           visible={isLoading || user.loading}
           loaderProps={{ variant: 'dots' }}
@@ -142,7 +142,7 @@ export const AuthProvider = ({ children }: any) => {
             alignItems: 'center',
             justifyContent: 'center',
             width: '100vw',
-            height: '100vh',
+            height: '100dvh',
           }}
           overlayBlur={2}
         />

@@ -21,9 +21,9 @@ type NavbarLink = {
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    height: `calc(100vh - 4.375rem - 3.75rem)`,
+    height: `calc(100dvh - 4.375rem - 3.75rem)`,
     [theme.fn.smallerThan('md')]: {
-      height: `calc(100vh - 3.75rem - 3.125rem)`,
+      height: `calc(100dvh - 3.75rem - 3.125rem)`,
     },
   },
   header: {

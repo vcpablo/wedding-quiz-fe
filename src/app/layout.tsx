@@ -22,13 +22,19 @@ const inter = Inter({ subsets: ['latin'] })
 
 const RootLayout = ({ children }: { children: React.ReactElement }) => {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      style={{ overflowY: 'hidden', height: '100%', width: '100%' }}
+    >
       <meta content="yes" name="apple-mobile-web-app-capable" />
       <meta
         content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
         name="viewport"
       />
-      <body className={inter.className}>
+      <body
+        className={inter.className}
+        style={{ overflowY: 'hidden', height: '100%', width: '100%' }}
+      >
         <AppProvider>
           <AuthProvider>
             <GraphQLProvider>

@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <HeaderUI height="auto">
+      <HeaderUI height="auto" styles={{ root: { position: 'absolute' } }}>
         <Container>
           <Flex align="center" h="100%" p="xs">
             <Flex align="center" justify="space-between" w="100%">

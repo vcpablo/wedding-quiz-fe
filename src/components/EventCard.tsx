@@ -33,7 +33,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
       onClick={handleViewQuizzes}
     >
       <Card.Section>
-        <Image src={event.image} alt={event.name} height={240} />
+        <Image src={event.image} alt={event.name} height={200} />
       </Card.Section>
 
       <Flex direction="column" mt="md" mb="xs">

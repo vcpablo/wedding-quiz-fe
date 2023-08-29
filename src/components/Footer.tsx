@@ -8,8 +8,14 @@ import ErrorAlert from './ErrorAlert'
 const Footer = () => {
   const { error, setError, notification, setNotification } = useAppContext()
 
+  const styles = {
+    root: {
+      position: 'absolute',
+    },
+  }
+
   return (
-    <FooterUI height="auto" p="xs">
+    <FooterUI height="auto" p="xs" styles={styles}>
       <Flex direction="column" gap={16}>
         {notification && (
           <NotificationAlert

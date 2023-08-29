@@ -1,16 +1,21 @@
 'use client'
 
 import { getRanking } from '@/helpers/questionnaire'
+import { Questionnaire } from '@/lib/wedding/graphql'
 import { Prize } from '@/types'
 import { Badge, Card, Flex, Group, Image, Text } from '@mantine/core'
 import { useMemo } from 'react'
 
 type PrizeCardProps = {
   prize: Prize
+  prizes: Prize[]
 }
 
-const PrizeCard: React.FC<PrizeCardProps> = ({ prize }) => {
-  const ranking = useMemo(() => getRanking(prize.ranking), [prize.ranking])
+const PrizeCard: React.FC<PrizeCardProps> = ({ prize, prizes }) => {
+  const ranking = useMemo(
+    () => getRanking({ position: prize.ranking, prizes }),
+    [prize.ranking, prizes]
+  )
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>

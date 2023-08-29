@@ -38,8 +38,9 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
           : theme.colors.gray[0],
       [theme.fn.smallerThan('md')]: {
         paddingLeft: `1rem`,
+        paddingTop: '60px',
       },
-      height: 'calc(100vh - 30px)',
+      height: 'calc(100dvh - 30px)',
       overflow: 'auto',
     },
   }
@@ -53,8 +54,8 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
       {error && <ErrorAlert error={error} onClose={() => setError('')} />}
     </>
   ) : (
-    <AppShellUI styles={styles} footer={<Footer />} header={<Header />}>
-      <Container pt={matches ? 150 : 50} h="90%">
+    <AppShellUI styles={styles} header={<Header />}>
+      <Container h="90%">
         <Box w="100%" pb={50}>
           {children}
         </Box>

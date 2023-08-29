@@ -117,7 +117,7 @@ const Guests: React.FC = () => {
           isEmpty={isEmpty}
           emptyText="Nenhum convidado encontrado"
         >
-          <Box style={{ overflowX: 'auto' }} mah="calc(100vh - 215px)">
+          <Box style={{ overflowX: 'auto' }} mah="calc(100dvh - 215px)">
             <Table
               striped
               captionSide="bottom"

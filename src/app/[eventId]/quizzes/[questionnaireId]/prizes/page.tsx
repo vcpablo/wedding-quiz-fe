@@ -42,7 +42,11 @@ const QuestionnairePrizes: React.FC<QuestionnairePrizesProps> = () => {
           <Grid>
             {questionnaire?.prizes?.map((prize: Prize, index: number) => (
               <Grid.Col key={index} xs={6} sm={4} md={4} lg={4}>
-                <PrizeCard key={index} prize={prize} />
+                <PrizeCard
+                  key={index}
+                  prize={prize}
+                  prizes={questionnaire.prizes}
+                />
               </Grid.Col>
             ))}
           </Grid>

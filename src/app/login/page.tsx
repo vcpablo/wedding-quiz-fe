@@ -121,7 +121,7 @@ function Login() {
 
   return (
     <Container size={420} my={40}>
-      <Flex justify="center" direction="column" mih="60vh">
+      <Flex justify="center" direction="column" mih="60dvh">
         <Box w="100%">
           <Image src="/images/wedding-vibes.gif" alt="Noivos dançando" />
           <Flex align="center" justify="center" gap={10}>
