@@ -32,6 +32,7 @@ const Quizzes: React.FC = () => {
           eventId: event?.id,
           userId: user.data?.id,
         },
+        fetchPolicy: 'no-cache',
       })
     }
   }, [event?.id])

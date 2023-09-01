@@ -67,7 +67,7 @@ export const QuestionnaireProvider = ({ children }: any) => {
       questionnaireId,
       userId: user.data?.id,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
     skip: !user.data?.id || !questionnaireId,
   })
 
@@ -135,7 +135,7 @@ export const QuestionnaireProvider = ({ children }: any) => {
         navigate(`${pathname}?questionId=${currentAnsweredQuestionId}`)
       }
     }
-  }, [data])
+  }, [data?.questionnaire])
 
   useEffect(() => {
     const questionId = Number(searchParams.get('questionId'))
