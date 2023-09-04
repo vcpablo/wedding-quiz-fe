@@ -6,8 +6,8 @@ import { IconCheck } from '@tabler/icons-react'
 
 type QuestionOptionProps = {
   option: Option
-  selectedOption: number | null
-  onClick: (id: number) => void
+  selectedOption?: number | null
+  onClick?: (id: number) => void
 }
 
 const QuestionOption: React.FC<QuestionOptionProps> = ({
@@ -21,8 +21,14 @@ const QuestionOption: React.FC<QuestionOptionProps> = ({
     background: selectedOption === option.id ? theme.colors.blue[0] : '',
   })
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick(option.id)
+    }
+  }
+
   return (
-    <Flex sx={sx} onClick={() => onClick(option.id)} gap={15} p={10}>
+    <Flex sx={sx} onClick={handleClick} gap={15} p={10}>
       {selectedOption === option.id ? (
         <ThemeIcon color="blue" size={24}>
           <IconCheck size="1rem" />

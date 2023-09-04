@@ -11,6 +11,7 @@ import {
 } from '@/helpers/questionnaire'
 import {
   IconExclamationCircle,
+  IconListDetails,
   IconListNumbers,
   IconPlayerPlay,
   IconPlayerSkipForward,
@@ -18,6 +19,7 @@ import {
 } from '@tabler/icons-react'
 import { useAppContext } from '@/providers/AppProvider'
 import QuestionnaireProgress from './QuestionnaireProgress'
+import { useAuthContext } from '@/providers/AuthProvider'
 
 type QuestionnaireCardProps = {
   questionnaire: Questionnaire
@@ -29,6 +31,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
   hasPrizes,
 }) => {
   const { navigate } = useAppContext()
+  const { isAdmin } = useAuthContext()
 
   const { progress, totalAnswers, totalQuestions } = useMemo(
     () => getQuestionnaireProgress(questionnaire),
@@ -75,6 +78,11 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
   const handleViewPrizes = (event: any) => {
     event.stopPropagation()
     navigate(`/${questionnaire.event_id}/quizzes/${questionnaire.id}/prizes`)
+  }
+
+  const handleViewAnswers = (event: any) => {
+    event.stopPropagation()
+    navigate(`/${questionnaire.event_id}/quizzes/${questionnaire.id}/answers`)
   }
 
   return (
@@ -133,6 +141,17 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
             </Button>
           )}
         </Flex>
+
+        {isAdmin && (
+          <Button
+            fullWidth
+            variant="light"
+            leftIcon={<IconListDetails size="1rem" />}
+            onClick={handleViewAnswers}
+          >
+            Ver respostas
+          </Button>
+        )}
 
         {hasNoQuestion && (
           <Flex align="center" gap={5}>

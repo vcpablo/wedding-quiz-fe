@@ -21,10 +21,12 @@ export enum QuestionType {
 export interface Option extends BaseTimestamps {
   id: number
   title: string
+  answers?: Answer[]
 }
 
 export interface Answer extends BaseTimestamps {
   user_id: number
+  user?: User
   option_id?: number | null | undefined
   updated_at: any
   question_id: number

@@ -16,18 +16,19 @@ import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { Guest } from '@/types'
 import { useMutation, useQuery } from '@apollo/client'
-import { Box, Button, Flex, Table, Title } from '@mantine/core'
+import { Box, Button, Flex, Input, Table, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
   IconCheck,
   IconEdit,
   IconPlus,
+  IconSearch,
   IconSettings,
   IconTrash,
   IconUser,
   IconX,
 } from '@tabler/icons-react'
-import { useMemo, useState } from 'react'
+import { SyntheticEvent, useMemo, useState } from 'react'
 
 type SelectedGuest = {
   id: number
@@ -38,6 +39,7 @@ const Guests: React.FC = () => {
   const { event } = useEventContext()
   const { navigate, setIsLoading, setNotification, setError } = useAppContext()
   const [selectedGuest, setSelectedGuest] = useState<SelectedGuest | null>(null)
+  const [search, setSearch] = useState<string>('')
 
   const [
     isConfirmationModalOpen,
@@ -66,6 +68,14 @@ const Guests: React.FC = () => {
   ]
 
   const isEmpty = useMemo(() => data?.guests?.length === 0, [data?.guests])
+
+  const filteredGuests = useMemo(() => {
+    if (!search) return data?.guests
+
+    return data?.guests?.filter(({ name }) =>
+      name?.toLowerCase().includes(search.toLowerCase())
+    )
+  }, [data?.guests, search])
 
   const handleNewGuest = () => navigate(`/${event.id}/guests/create`)
 
@@ -98,6 +108,14 @@ const Guests: React.FC = () => {
     }
   }
 
+  const handleSearch = (event: any): void => {
+    setSearch(event.target.value)
+  }
+
+  const handleClearSearch = (): void => {
+    setSearch('')
+  }
+
   return (
     <>
       <Flex direction="column" gap={16}>
@@ -112,6 +130,13 @@ const Guests: React.FC = () => {
             Novo
           </Button>
         </Flex>
+        <Input
+          icon={<IconSearch />}
+          rightSection={<IconX size="1rem" onClick={handleClearSearch} />}
+          placeholder="Buscar convidados"
+          value={search}
+          onChange={handleSearch}
+        />
         <DataRenderer
           isLoading={loading}
           isEmpty={isEmpty}
@@ -143,7 +168,7 @@ const Guests: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.guests?.map(({ id, name, user }) => (
+                {filteredGuests?.map(({ id, name, user }) => (
                   <tr key={id}>
                     <td>
                       <Box ta="center">{id}</Box>

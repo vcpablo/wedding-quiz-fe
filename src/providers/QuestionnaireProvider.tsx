@@ -27,6 +27,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useAuthContext } from './AuthProvider'
 import { useAppContext } from './AppProvider'
 import { Answer, Question } from '@/types'
+import { reduceAnswers } from '@/lib/utils/questionnaire'
 
 interface QuestionnaireContextValue {
   questionnaire?: Questionnaire | null
@@ -70,15 +71,6 @@ export const QuestionnaireProvider = ({ children }: any) => {
     fetchPolicy: 'no-cache',
     skip: !user.data?.id || !questionnaireId,
   })
-
-  const reduceAnswers = (questions: Question[]): Answer[] =>
-    questions.reduce(
-      (acc: any[], question: Question) => [
-        ...acc,
-        ...question.answers.map((answer) => answer),
-      ],
-      []
-    )
 
   const [insertAnswer] = useMutation<
     InsertAnswerMutation,

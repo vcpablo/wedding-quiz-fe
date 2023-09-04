@@ -301,3 +301,54 @@ mutation DeleteGuest($id: Int!) {
     id
   }
 }
+
+query GetEventQuestionnaireUsersAnswers($questionnaireId: Int) {
+  questionnaire(where: { id: { _eq: $questionnaireId } }) {
+    id
+    title
+    description
+    image
+    event_id
+    event {
+      name
+    }
+    questions(order_by: { id: asc }) {
+      id
+      title
+      type
+      hint
+      image
+      answers {
+        id
+        user_id
+        user {
+          id
+          name
+        }
+        option_id
+        updated_at
+        question_id
+      }
+      options {
+        id
+        title
+        answers {
+          id
+          user_id
+          user {
+            id
+            name
+          }
+          option_id
+          updated_at
+          question_id
+        }
+      }
+    }
+    prizes {
+      name
+      image
+      ranking
+    }
+  }
+}
