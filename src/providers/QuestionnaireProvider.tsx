@@ -19,6 +19,7 @@ import {
   InsertAnswerMutation,
   InsertAnswerMutationVariables,
   Questionnaire,
+  Questions,
   UpdateAnswerDocument,
   UpdateAnswerMutation,
   UpdateAnswerMutationVariables,
@@ -149,7 +150,7 @@ export const QuestionnaireProvider = ({ children }: any) => {
   }, [questionnaire, searchParams])
 
   useEffect(() => {
-    const questions: Question[] = questionnaire?.questions || []
+    const questions: Questions[] = questionnaire?.questions || []
     const progress: number =
       ((activeQuestionIndex + 1) * 100) / (questions.length || 1)
 
