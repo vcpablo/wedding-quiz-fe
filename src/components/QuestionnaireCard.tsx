@@ -148,6 +148,7 @@ const QuestionnaireCard: React.FC<QuestionnaireCardProps> = ({
             variant="light"
             leftIcon={<IconListDetails size="1rem" />}
             onClick={handleViewAnswers}
+            disabled={hasNoQuestion}
           >
             Ver respostas
           </Button>

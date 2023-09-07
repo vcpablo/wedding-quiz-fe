@@ -50,7 +50,7 @@ const Answers: React.FC = () => {
   const users = useMemo(
     () =>
       pipe(
-        reduce((acc, question) => {
+        reduce((acc: any, question: Question) => {
           const answersUsers = question.answers.map(
             (answer: Answer) => answer.user_id
           )

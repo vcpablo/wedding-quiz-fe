@@ -229,6 +229,7 @@ query GetQuestionnaireRanking($args: get_questionnaire_ranking_args!) {
     email
     phone
     points
+    last_answer
   }
 }
 

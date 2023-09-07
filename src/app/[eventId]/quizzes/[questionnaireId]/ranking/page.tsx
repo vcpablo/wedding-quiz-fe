@@ -18,11 +18,13 @@ import {
   Flex,
   Paper,
   Popover,
+  Stack,
   Table,
   Text,
   Title,
 } from '@mantine/core'
 import { IconHelpCircle, IconInfoCircle, IconTrophy } from '@tabler/icons-react'
+import dayjs from 'dayjs'
 import { useMemo } from 'react'
 
 interface QuestionnaireRankingProps {}
@@ -107,24 +109,46 @@ const QuestionnaireRanking: React.FC<QuestionnaireRankingProps> = () => {
                 </thead>
                 <tbody>
                   {data?.get_questionnaire_ranking?.map(
-                    ({ id, name, email, phone, points }, index) => (
-                      <tr key={id}>
-                        <td>
-                          <Box ta="center">
-                            {getRanking({
-                              position: index + 1,
-                              prizes: questionnaire?.prizes || [],
-                            })}
-                          </Box>
-                        </td>
-                        <td>
-                          {name || email || phone || 'Usuário desconhecido'}
-                        </td>
-                        <td>
-                          <Box ta="center">{points}</Box>
-                        </td>
-                      </tr>
-                    )
+                    (
+                      { id, name, email, phone, points, last_answer },
+                      index
+                    ) => {
+                      const ranking = getRanking({
+                        position: index + 1,
+                        prizes: questionnaire?.prizes || [],
+                      })
+
+                      const hasPrize = !Number(ranking)
+                      const textStyle = hasPrize
+                        ? {
+                            fw: 'bold',
+                            size: 16,
+                          }
+                        : null
+
+                      return (
+                        <tr key={id}>
+                          <td>
+                            <Box ta="center">{ranking}</Box>
+                          </td>
+                          <td>
+                            <Text {...textStyle}>
+                              {name || email || phone || 'Usuário desconhecido'}
+                            </Text>
+                            <Text size={10} color="gray">
+                              {dayjs(last_answer).format(
+                                'DD/MM/YYYY [às] HH[h]mm'
+                              )}
+                            </Text>
+                          </td>
+                          <td valign="baseline">
+                            <Text ta="center" {...textStyle}>
+                              {points}
+                            </Text>
+                          </td>
+                        </tr>
+                      )
+                    }
                   )}
                 </tbody>
               </Table>
