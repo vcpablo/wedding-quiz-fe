@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   AppShell as AppShellUI,
   useMantineTheme,
@@ -48,6 +48,12 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
   const isLoginPage = pathname === '/login'
   const matches = useMediaQuery('(max-width: 575px)')
 
+  const containerOverflow = useMemo(
+    () => (matches ? 'auto' : 'initial'),
+    [matches]
+  )
+  const boxMargin = useMemo(() => (matches ? 80 : 0), [matches])
+
   return isLoginPage ? (
     <>
       {children}
@@ -55,8 +61,8 @@ const AppShell = ({ children }: { children: React.ReactElement }) => {
     </>
   ) : (
     <AppShellUI styles={styles} header={<Header />}>
-      <Container h="90%">
-        <Box w="100%" pb={50}>
+      <Container h="100%" style={{ overflowY: containerOverflow }}>
+        <Box w="100%" mt={boxMargin}>
           {children}
         </Box>
       </Container>

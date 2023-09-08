@@ -139,15 +139,17 @@ export const QuestionnaireProvider = ({ children }: any) => {
       )
 
       setActiveQuestionIndex(questionIndex)
-
-      const selectedOption =
-        questionnaire?.questions[questionIndex]?.answers?.[0]?.option_id
-
-      if (selectedOption) {
-        setSelectedOption(selectedOption)
-      }
     }
   }, [questionnaire, searchParams])
+
+  useEffect(() => {
+    const selectedOption =
+      questionnaire?.questions[activeQuestionIndex]?.answers?.[0]?.option_id
+
+    if (selectedOption) {
+      setSelectedOption(selectedOption)
+    }
+  }, [activeQuestionIndex])
 
   useEffect(() => {
     const questions: Questions[] = questionnaire?.questions || []
@@ -200,6 +202,8 @@ export const QuestionnaireProvider = ({ children }: any) => {
       questionnaireId: Number(params?.questionnaireId),
       userId: user.data?.id,
     })
+
+    setSelectedOption(0)
 
     if (isLastQuestion) {
       navigate(`${pathname}/complete`)

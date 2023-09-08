@@ -70,6 +70,8 @@ const Questionnaire: React.FC = () => {
     [totalQuestions]
   )
 
+  const hasNoSelectedOption = useMemo(() => !selectedOption, [selectedOption])
+
   return (
     <Flex direction="column" gap={16} h="100%" justify="space-between">
       <Flex direction="column" gap={16}>
@@ -110,7 +112,7 @@ const Questionnaire: React.FC = () => {
             fullWidth
             radius="md"
             onClick={handleNextQuestion}
-            disabled={!selectedOption}
+            disabled={hasNoSelectedOption}
             color={buttonProps.color}
             leftIcon={buttonProps.icon}
           >
