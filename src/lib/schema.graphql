@@ -250,7 +250,7 @@ mutation UpdateAnswer($id: Int!, $optionId: Int!) {
 }
 
 query GetGuestsByEvents($eventId: Int!) {
-  guests(where: {event_id: {_eq: $eventId}}) {
+  guests(where: {event_id: {_eq: $eventId}}, order_by: { name: asc }) {
     id
     name
     status

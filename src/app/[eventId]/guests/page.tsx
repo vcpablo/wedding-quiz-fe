@@ -3,6 +3,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs'
 import ConfirmationModal from '@/components/ConfirmationModal'
 import DataRenderer from '@/components/DataRenderer'
+import GuestsTotal from '@/components/GuestsTotal'
 import {
   DeleteGuestDocument,
   DeleteGuestMutation,
@@ -16,7 +17,7 @@ import { useAppContext } from '@/providers/AppProvider'
 import { useEventContext } from '@/providers/EventProvider'
 import { Guest } from '@/types'
 import { useMutation, useQuery } from '@apollo/client'
-import { Box, Button, Flex, Input, Table, Title } from '@mantine/core'
+import { Box, Button, Flex, Input, Table, Text, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
   IconCheck,
@@ -142,6 +143,12 @@ const Guests: React.FC = () => {
           isEmpty={isEmpty}
           emptyText="Nenhum convidado encontrado"
         >
+          {!loading && (
+            <GuestsTotal
+              guests={data?.guests || []}
+              filteredGuests={filteredGuests || []}
+            />
+          )}
           <Box style={{ overflowX: 'auto' }} mah="calc(100dvh - 215px)">
             <Table
               striped
