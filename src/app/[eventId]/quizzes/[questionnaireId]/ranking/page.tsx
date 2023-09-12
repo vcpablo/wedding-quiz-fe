@@ -44,6 +44,7 @@ const QuestionnaireRanking: React.FC<QuestionnaireRankingProps> = () => {
       },
     },
     skip: !questionnaire?.id,
+    fetchPolicy: 'no-cache',
   })
 
   const breadcrumbs = [
